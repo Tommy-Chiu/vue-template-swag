@@ -5,6 +5,7 @@ module.exports = {
     "postcss-import": {},
     "postcss-url": {},
     // to edit target browsers: use "browserslist" field in package.json
-    "autoprefixer": {}
+    // "autoprefixer": {}, //  it's already included by postcss-cssnext.
+    "postcss-cssnext":{}
   }
 }

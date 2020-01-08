@@ -9,6 +9,7 @@ import router from '@/router'
 import store from '@/store'
 
 import '@/icons'
+import '@/styles'
 
 /* eslint-disable no-new */
 new Vue({
