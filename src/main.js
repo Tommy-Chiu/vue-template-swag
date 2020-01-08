@@ -8,6 +8,8 @@ import app from '@/app'
 import router from '@/router'
 import store from '@/store'
 
+import '@/icons'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

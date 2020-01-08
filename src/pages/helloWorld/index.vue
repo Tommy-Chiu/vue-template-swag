@@ -25,7 +25,9 @@
 
 <template>
   <div class="hello-world-wrap">
-    <img src="../../assets/logo.png">
+    <svg aria-hidden="true">
+      <use :xlink:href="`#icon-logo`"></use>
+    </svg>
     <h1>Welcome to Your Vue.js App</h1>
     <h2>Essential Links</h2>
     <ul>
