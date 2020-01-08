@@ -45,16 +45,24 @@
       <span>{{vx_count}}</span>
       <button @click="vx_decrementCount(decrementPayload)">decrement({{decrementPayload}})</button>
     </p>
+    <h2>axios demo</h2>
+    <p>{{response}}</p>
+    <p>
+      <button @click="testHttpGet">get</button>
+      <button @click="testHttpPost">post</button>
+    </p>
   </div>
 </template>
 
 <script>
+import { pageHttpHelloWorld } from '@/http'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
       incrementPayload: 1,
       decrementPayload: 2,
+      response: null,
       essentialLinks: [
         {
           name: 'Core Docs',
@@ -110,7 +118,17 @@ export default {
       vx_incrementCount: 'increment_count',
       vx_decrementCount: 'decrement_count',
       vx_reset: 'reset'
-    })
+    }),
+    async testHttpGet () {
+      this.response = await pageHttpHelloWorld.testHttpGet('testHttpGetData')
+        .then((res) => { return res })
+        .catch((err) => { return err })
+    },
+    async testHttpPost () {
+      this.response = await pageHttpHelloWorld.testHttpPost('testHttpPostData')
+        .then((res) => { return res })
+        .catch((err) => { return err })
+    }
   }
 }
 </script>
