@@ -43,6 +43,8 @@
     p
       button(@click="testHttpGet") get
       button(@click="testHttpPost") post
+    h2 markdown demo
+    doc
 </template>
 
 <script>
@@ -54,15 +56,17 @@ import { logo } from '@/modules'
 // import { pageUtilHelloWorld } from '@/utils'
 import { pageHttpHelloWorld } from '@/http'
 import { mapGetters, mapActions } from 'vuex'
-
 // let { } = pageComponentHelloWorld
 // let { } = pageDirectiveHelloWorld
 // let { } = pageFilterHelloWorld
 // let { } = pageMixinHelloWorld
 // let { } = pageUtilHelloWorld
+import doc from '@/doc.md'
+
 export default {
   components: {
-    logo
+    logo,
+    doc
   },
   directives: {},
   filters: {},
