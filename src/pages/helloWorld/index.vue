@@ -23,8 +23,7 @@
 
 <template lang="pug">
   div.hello-world-wrap
-    svg(aria-hidden="true")
-      use(:xlink:href="`#icon-logo`")
+    logo
     h1 Welcome to Your Vue.js App
     h2 Essential Links
     ul
@@ -47,7 +46,7 @@
 </template>
 
 <script>
-
+import { logo } from '@/modules'
 // import { pageComponentHelloWorld } from '@/components'
 // import { pageDirectiveHelloWorld } from '@/directives'
 // import { pageFilterHelloWorld } from '@/filters'
@@ -62,7 +61,9 @@ import { mapGetters, mapActions } from 'vuex'
 // let { } = pageMixinHelloWorld
 // let { } = pageUtilHelloWorld
 export default {
-  components: {},
+  components: {
+    logo
+  },
   directives: {},
   filters: {},
   mixins: [],

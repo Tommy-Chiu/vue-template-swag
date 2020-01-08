@@ -16,3 +16,11 @@ pageComponentFiles.keys().forEach(key => {
     exports[`pageComponent${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageComponentFiles(key).default
   }
 })
+
+const moduleComponentFiles = require.context('../modules', true, /index\.js$/)
+moduleComponentFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  if (arr[1] === 'component') {
+    exports[`moduleComponent${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleComponentFiles(key).default
+  }
+})

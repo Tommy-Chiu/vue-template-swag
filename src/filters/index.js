@@ -16,3 +16,11 @@ pageFilterFiles.keys().forEach(key => {
     exports[`pageFilter${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageFilterFiles(key).default
   }
 })
+
+const moduleFilterFiles = require.context('../modules', true, /index\.js$/)
+moduleFilterFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  if (arr[1] === 'filter') {
+    exports[`moduleFilter${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleFilterFiles(key).default
+  }
+})

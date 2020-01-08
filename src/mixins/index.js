@@ -15,3 +15,11 @@ pageMixinFiles.keys().forEach(key => {
     exports[`pageMixin${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageMixinFiles(key).default
   }
 })
+
+const moduleMixinFiles = require.context('../modules', true, /index\.js$/)
+moduleMixinFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  if (arr[1] === 'mixin') {
+    exports[`moduleMixin${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleMixinFiles(key).default
+  }
+})

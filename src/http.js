@@ -123,3 +123,9 @@ files.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   exports[`pageHttp${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = files(key).default
 })
+
+const moduleUtilFiles = require.context('./modules', true, /http\/index\.js$/)
+moduleUtilFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  exports[`moduleHttp${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleUtilFiles(key).default
+})

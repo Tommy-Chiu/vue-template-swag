@@ -16,3 +16,11 @@ pageDirectiveFiles.keys().forEach(key => {
     exports[`pageDirective${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageDirectiveFiles(key).default
   }
 })
+
+const moduleDirectiveFiles = require.context('../modules', true, /index\.js$/)
+moduleDirectiveFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  if (arr[1] === 'directive') {
+    exports[`moduleDirective${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleDirectiveFiles(key).default
+  }
+})

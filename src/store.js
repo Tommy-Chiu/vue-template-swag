@@ -13,6 +13,15 @@ files.keys().forEach(key => {
   modules[moduleName] = module
 })
 
+const moduleStoreFiles = require.context('./modules', true, /store\/index\.js$/)
+moduleStoreFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  let module = moduleStoreFiles(key).default
+  module.namespaced = true
+  let moduleName = arr[0]
+  modules[moduleName] = module
+})
+
 export default new Vuex.Store({
   modules,
   strict: process.env.NODE_ENV !== 'production'

@@ -13,3 +13,11 @@ pageUtilFiles.keys().forEach(key => {
     exports[`pageUtil${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageUtilFiles(key).default
   }
 })
+
+const moduleUtilFiles = require.context('../modules', true, /index\.js$/)
+moduleUtilFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  if (arr[1] === 'util') {
+    exports[`moduleUtil${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleUtilFiles(key).default
+  }
+})
