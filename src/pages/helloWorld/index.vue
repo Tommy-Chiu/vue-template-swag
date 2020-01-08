@@ -55,9 +55,25 @@
 </template>
 
 <script>
+
+// import { pageComponentHelloWorld } from '@/components'
+// import { pageDirectiveHelloWorld } from '@/directives'
+// import { pageFilterHelloWorld } from '@/filters'
+// import { pageMixinHelloWorld } from '@/mixins'
+// import { pageUtilHelloWorld } from '@/utils'
 import { pageHttpHelloWorld } from '@/http'
 import { mapGetters, mapActions } from 'vuex'
+
+// let { } = pageComponentHelloWorld
+// let { } = pageDirectiveHelloWorld
+// let { } = pageFilterHelloWorld
+// let { } = pageMixinHelloWorld
+// let { } = pageUtilHelloWorld
 export default {
+  components: {},
+  directives: {},
+  filters: {},
+  mixins: [],
   data () {
     return {
       incrementPayload: 1,

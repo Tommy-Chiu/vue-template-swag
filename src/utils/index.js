@@ -5,3 +5,11 @@ files.keys().forEach(key => {
   let utilName = key.split('/')[1]
   exports[utilName] = util
 })
+
+const pageUtilFiles = require.context('../pages', true, /index\.js$/)
+pageUtilFiles.keys().forEach(key => {
+  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
+  if (arr[1] === 'util') {
+    exports[`pageUtil${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageUtilFiles(key).default
+  }
+})
