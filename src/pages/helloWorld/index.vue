@@ -17,6 +17,10 @@
   a {
     color: #42b983;
   }
+
+  button {
+    margin: 0 5px;
+  }
 </style>
 
 <template>
@@ -35,13 +39,22 @@
         <a :href="item.url" target="_blank">{{item.name}}</a>
       </li>
     </ul>
+    <h2>vuex demo</h2>
+    <p>
+      <button @click="vx_incrementCount(incrementPayload)">increment({{incrementPayload}})</button>
+      <span>{{vx_count}}</span>
+      <button @click="vx_decrementCount(decrementPayload)">decrement({{decrementPayload}})</button>
+    </p>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
+      incrementPayload: 1,
+      decrementPayload: 2,
       essentialLinks: [
         {
           name: 'Core Docs',
@@ -83,6 +96,21 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters('helloWorld', {
+      vx_count: 'getCount'
+    })
+  },
+  destroyed () {
+    this.vx_reset()
+  },
+  methods: {
+    ...mapActions('helloWorld', {
+      vx_incrementCount: 'increment_count',
+      vx_decrementCount: 'decrement_count',
+      vx_reset: 'reset'
+    })
   }
 }
 </script>
