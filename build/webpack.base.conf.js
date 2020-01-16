@@ -38,6 +38,12 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  resolveLoader: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, 'rules')
+    ]
+  },
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
@@ -46,13 +52,17 @@ module.exports = {
         loader: 'pug-html-loader'
       },
       {
+        test: /\.md$/,
+        loader: 'vue-md-loader',
+        options: {
+          raw: true,
+          preventExtract: true
+        }
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
-      },
-      {
-        test: /\.md$/,
-        loader: 'vue-markdown-loader'
       },
       {
         test: /\.js$/,
