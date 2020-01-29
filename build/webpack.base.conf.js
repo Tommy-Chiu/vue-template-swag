@@ -56,7 +56,11 @@ module.exports = {
         loader: 'vue-md-loader',
         options: {
           raw: true,
-          preventExtract: true
+          preventExtract: true,
+          html: true,
+          breaks: true,
+          linkify: true,
+          typographer:true
         }
       },
       {
