@@ -60,7 +60,18 @@ module.exports = {
           html: true,
           breaks: true,
           linkify: true,
-          typographer:true
+          typographer:true,
+          use: [
+            require('markdown-it-sup'),
+            require('markdown-it-sub'),
+            require('markdown-it-footnote'),
+            require('markdown-it-deflist'),
+            require('markdown-it-abbr'),
+            require('markdown-it-emoji'),
+            require('markdown-it-ins'),
+            require('markdown-it-mark'),
+            require('markdown-it-task-lists')
+          ]
         }
       },
       {

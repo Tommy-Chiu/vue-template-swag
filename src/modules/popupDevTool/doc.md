@@ -134,3 +134,75 @@ Like links, Images also have a footnote style syntax
 With a reference later in the document defining the URL location:
 
 [id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
+
+## Plugins
+
+### Subscript / Superscript
+
+- 29^th^
+- H~2~O
+
+[Documentation for Subscript](https://github.com/markdown-it/markdown-it-sub)
+[Documentation for Superscript](https://github.com/markdown-it/markdown-it-sup)
+
+### Footnote
+
+Here is a footnote reference,[^1] and another.[^longnote]
+Subsequent paragraphs are indented to show that they
+belong to the previous footnote.
+[^1]: Here is the footnote.
+[^longnote]: Here's one with multiple blocks.
+
+[Documentation for Footnote](https://github.com/markdown-it/markdown-it-footnote)
+
+### Definition lists
+
+Term 1
+~ Definition 1
+
+Term 2
+~ Definition 2a
+~ Definition 2b
+
+[Documentation for Definition lists](https://github.com/markdown-it/markdown-it-deflist)
+
+### Abbreviation
+
+The HTML specification
+is maintained by the W3C.
+*[HTML]: Hyper Text Markup Language
+*[W3C]:  World Wide Web Consortium
+
+[Documentation for Abbreviation](https://github.com/markdown-it/markdown-it-abbr)
+
+### Emoji
+
+:panda_face: :sparkles: :camel: :boom: :pig:
+
+[Documentation for Emoji](https://github.com/markdown-it/markdown-it-emoji)
+
+### Insert
+
+++inserted++
+
+[Documentation for Insert](https://github.com/markdown-it/markdown-it-ins)
+
+### Mark
+
+==marked==
+
+[Documentation for Mark](https://github.com/markdown-it/markdown-it-mark)
+
+### Task lists
+
+- [ ] Mercury
+- [x] Venus
+- [x] Earth (Orbit/Moon)
+- [x] Mars
+- [ ] Jupiter
+- [ ] Saturn
+- [ ] Uranus
+- [ ] Neptune
+- [ ] Comet Haley
+
+[Documentation for Task lists](https://github.com/revin/markdown-it-task-lists)
