@@ -10,8 +10,12 @@ import store from '@/store'
 
 import '@/icons'
 import '@/styles'
-import { icon } from '@/components'
+import {
+  icon,
+  mdPlugin
+} from '@/components'
 Vue.use(icon)
+Vue.use(mdPlugin)
 
 /* eslint-disable no-new */
 new Vue({

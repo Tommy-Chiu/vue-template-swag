@@ -70,7 +70,21 @@ module.exports = {
             require('markdown-it-emoji'),
             require('markdown-it-ins'),
             require('markdown-it-mark'),
-            require('markdown-it-task-lists')
+            require('markdown-it-task-lists'),
+            [require('markdown-it-container'), 'plugin', {
+              validate: function (params) {
+                return params.trim().match(/^plugin\s+(.*)$/)
+              },
+              render: function (tokens, idx) {
+                if (tokens[idx].nesting === 1) {
+                  let info = tokens[idx].info.trim().match(/^plugin\s+(.*)$/)
+                  let pluginType = info && info.length > 1 ? info[1] : ''
+                  return `<md-plugin :pluginType="'${pluginType}'">\n`
+                } else {
+                  return `</md-plugin>\n`
+                }
+              }
+            }]
           ]
         }
       },

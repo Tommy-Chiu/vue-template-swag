@@ -206,3 +206,118 @@ is maintained by the W3C.
 - [ ] Comet Haley
 
 [Documentation for Task lists](https://github.com/revin/markdown-it-task-lists)
+
+## Custom container
+
+### Notice
+
+:::plugin info
+```
+You have new mail.
+```
+:::
+
+:::plugin warning
+```
+You have new mail.
+```
+:::
+
+:::plugin success
+```
+You have got it.
+```
+:::
+
+:::plugin error
+```
+Staying up all night is bad for health.
+```
+:::
+
+Markup is similar to fenced code blocks. Valid container types are `info`, `warning`, `success` and `error`.
+
+### Echarts
+
+:::plugin echarts
+```
+{
+  "width": 500,
+  "height": 400,
+  "series": [
+    {
+      "name": "访问来源",
+      "type": "pie",
+      "radius": "55%",
+      "data": [
+        {
+          "value": 235,
+          "name": "视频广告"
+        },
+        {
+          "value": 274,
+          "name": "联盟广告"
+        },
+        {
+          "value": 310,
+          "name": "邮件营销"
+        },
+        {
+          "value": 335,
+          "name": "直接访问"
+        },
+        {
+          "value": 400,
+          "name": "搜索引擎"
+        }
+      ]
+    }
+  ]
+}
+```
+:::
+
+The width and height is the size for chart container.
+
+[Documentation for echarts](http://echarts.baidu.com)
+
+### Mermaid
+
+:::plugin mermaid
+```
+graph TB
+a-->b
+```
+:::
+
+[Documentation for mermaid](https://mermaid-js.github.io/mermaid/#/)
+
+### Flowchart
+
+:::plugin flowchart
+```
+st=>start: Start|past:>http://www.google.com[blank]
+e=>end: End:>http://www.google.com
+op1=>operation: My Operation|past
+op2=>operation: Stuff|current
+sub1=>subroutine: My Subroutine|invalid
+cond=>condition: Yes
+or No?|approved:>http://www.google.com
+c2=>condition: Good idea|rejected
+io=>inputoutput: catch something...|request
+para=>parallel: parallel tasks
+
+st->op1(right)->cond
+cond(yes, right)->c2
+cond(no)->para
+c2(true)->io->e
+c2(false)->e
+
+para(path1, bottom)->sub1(left)->op1
+para(path2, right)->op2->e
+
+st@>op1({"stroke":"Red"})@>cond({"stroke":"Red","stroke-width":6,"arrow-end":"classic-wide-long"})@>c2({"stroke":"Red"})@>op2({"stroke":"Red"})@>e({"stroke":"Red"})
+```
+:::
+
+[Documentation for flowchart](http://flowchart.js.org/)
