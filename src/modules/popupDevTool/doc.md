@@ -321,3 +321,32 @@ st@>op1({"stroke":"Red"})@>cond({"stroke":"Red","stroke-width":6,"arrow-end":"cl
 :::
 
 [Documentation for flowchart](http://flowchart.js.org/)
+
+### Demo
+
+::: demo :::
+description
+```
+<style scoped>
+  .wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
+<template lang="pug">
+  div.wrap {{content}}
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+        content: 'view'
+      }
+    }
+  }
+</script>
+```
+::: demo :::

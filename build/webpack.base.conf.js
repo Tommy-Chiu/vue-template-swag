@@ -61,6 +61,35 @@ module.exports = {
           breaks: true,
           linkify: true,
           typographer:true,
+          preprocess: function(markdownIt, content) {
+            if (content.indexOf('::: demo :::') !== -1) {
+              let contentArr = content.split('::: demo :::')
+              for (let i = 0; i <= contentArr.length; i++) {
+                if (i % 2 !== 0 && contentArr[i] && contentArr[i].indexOf('<template lang="pug">') !== -1) {
+                  let dataArr = contentArr[i].split('```')
+                  const $ = require('cheerio').load(dataArr[1], {
+                    decodeEntities: false,
+                    lowerCaseAttributeNames: false,
+                    lowerCaseTags: false
+                  })
+                  const codeData = {
+                    style: `${$.html('style')}`,
+                    html: null,
+                    script: `${$.html('script')}`
+                  }
+                  $('style').remove()
+                  $('script').remove()
+                  codeData.html = require('pug').render($.html().replace('<template lang="pug">', '<template>'))
+                  let view = '::: demo view' + `\n${codeData.style}\n${codeData.html}\n${codeData.script}\n` + ':::'
+                  let description = '::: demo description' + dataArr[0] + ':::'
+                  let code = '::: demo code\n```' + dataArr[1] + '```\n:::'
+                  contentArr[i] = `${view}\n${description}\n${code}`
+                }
+              }
+              content = contentArr.join('\n')
+            }
+            return content
+          },
           use: [
             require('markdown-it-sup'),
             require('markdown-it-sub'),
@@ -82,6 +111,19 @@ module.exports = {
                   return `<md-plugin :pluginType="'${pluginType}'">\n`
                 } else {
                   return `</md-plugin>\n`
+                }
+              }
+            }],
+            [require('markdown-it-container'), 'demo', {
+              validate: function (params) {
+                return params.trim().match(/^demo\s+(.*)$/)
+              },
+              render: function (tokens, idx) {
+                if (tokens[idx].nesting === 1) {
+                  let contentType = tokens[idx].info.trim().match(/^demo\s+(.*)$/)[1]
+                  return `<md-demo :contentType="'${contentType}'">\n`
+                } else {
+                  return `</md-demo>\n`
                 }
               }
             }]

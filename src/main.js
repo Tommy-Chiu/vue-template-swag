@@ -12,10 +12,12 @@ import '@/icons'
 import '@/styles'
 import {
   icon,
-  mdPlugin
+  mdPlugin,
+  mdDemo
 } from '@/components'
 Vue.use(icon)
 Vue.use(mdPlugin)
+Vue.use(mdDemo)
 
 /* eslint-disable no-new */
 new Vue({
