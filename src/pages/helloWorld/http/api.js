@@ -1,2 +1,2 @@
-export const testGet = '/api/helloWorld/testGet'
-export const testPost = '/api/helloWorld/testPost'
+export const testGet = '/mock/helloWorld/testGet'
+export const testPost = '/mock/helloWorld/testPost'
