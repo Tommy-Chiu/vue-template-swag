@@ -4,6 +4,19 @@
 
 const path = require('path')
 
+function getIPAdress() {
+  let interfaces = require('os').networkInterfaces()
+  for (let devName in interfaces) {
+    let iface = interfaces[ devName ]
+    for (let i = 0; i < iface.length; i++) {
+      let alias = iface[ i ]
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+        return alias.address
+      }
+    }
+  }
+}
+
 module.exports = {
   dev: {
 
@@ -13,7 +26,7 @@ module.exports = {
     proxyTable: {},
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: getIPAdress(), // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
