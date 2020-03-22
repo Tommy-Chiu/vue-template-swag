@@ -19,6 +19,7 @@
     }
     & .content {
       flex: 1;
+      padding: 50px;
       margin-top: 20px;
       border-radius: 6px;
       box-shadow: 0 2px 12px rgba(0, 0, 0, .2);

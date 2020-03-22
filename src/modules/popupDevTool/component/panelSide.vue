@@ -1,6 +1,7 @@
 <style scoped>
   .panel-side-wrap {
     height: 100%;
+    text-align: center;
     border-radius: 10px;
     overflow: hidden;
     background-color: #42b983;
