@@ -10,7 +10,6 @@ import router from '@/router'
 import store from '@/store'
 
 import '@/icons'
-import '@/styles'
 import {
   icon,
   mdPlugin,

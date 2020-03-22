@@ -30,7 +30,7 @@ exports.cssLoaders = function (options) {
   }
 
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loader, loaderOptions) {
+  function generateLoaders (loader, extension, loaderOptions) {
     const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
 
     if (loader) {
@@ -41,6 +41,12 @@ exports.cssLoaders = function (options) {
         })
       })
     }
+    loaders.push({
+      loader: 'style-resources-loader',
+      options: {
+        patterns: path.resolve(__dirname, `../src/styles/index.${loader ? extension : 'css'}`)
+      }
+    })
 
     // Extract CSS when that option is specified
     // (which is the case during production build)
@@ -58,11 +64,11 @@ exports.cssLoaders = function (options) {
   return {
     css: generateLoaders(),
     postcss: generateLoaders(),
-    less: generateLoaders('less'),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
-    stylus: generateLoaders('stylus'),
-    styl: generateLoaders('stylus')
+    less: generateLoaders('less', 'less'),
+    sass: generateLoaders('sass', 'sass', { indentedSyntax: true }),
+    scss: generateLoaders('sass', 'scss'),
+    stylus: generateLoaders('stylus', 'styl'),
+    styl: generateLoaders('stylus', 'styl')
   }
 }
 
