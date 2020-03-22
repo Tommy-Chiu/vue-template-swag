@@ -10,6 +10,8 @@ import store from '@/store'
 
 import '@/icons'
 import '@/styles'
+import { icon } from '@/components'
+Vue.use(icon)
 
 /* eslint-disable no-new */
 new Vue({

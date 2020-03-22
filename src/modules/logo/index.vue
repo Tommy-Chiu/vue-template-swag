@@ -1,9 +1,15 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+  .logo-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
 
 <template lang="pug">
-  svg(aria-hidden="true")
-    use(:xlink:href="`#icon-logo`")
+  div.logo-wrap
+    icon(:name="'logo'" :size="'150px'")
 </template>
 
 <script>
