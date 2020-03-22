@@ -82,7 +82,7 @@ module.exports = {
                   codeData.html = require('pug').render($.html().replace('<template lang="pug">', '<template>'))
                   let view = '::: demo view' + `\n${codeData.style}\n${codeData.html}\n${codeData.script}\n` + ':::'
                   let description = '::: demo description' + dataArr[0] + ':::'
-                  let code = '::: demo code\n```' + dataArr[1] + '```\n:::'
+                  let code = '::: demo code\n``` html' + dataArr[1] + '```\n:::'
                   contentArr[i] = `${view}\n${description}\n${code}`
                 }
               }
