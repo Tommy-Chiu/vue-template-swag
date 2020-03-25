@@ -18,10 +18,6 @@
         }
       }
     }
-
-    & button {
-      margin: 0 5px;
-    }
   }
 </style>
 
@@ -37,21 +33,6 @@
     ul
       li(v-for="(item, index) in ecosystem" :key="index")
         a(:href="item.url" target="_blank") {{item.name}}
-    h2 vuex demo
-    p
-      button(@click="vx_incrementCount(incrementPayload)") increment({{incrementPayload}})
-      span {{vx_count}}
-      button(@click="vx_decrementCount(decrementPayload)") decrement({{decrementPayload}})
-    h2 axios demo
-    p {{response}}
-    p
-      button(@click="testHttpGet") get
-      button(@click="testHttpPost") post
-    h2 markdown demo
-    doc
-    h2 devTool
-    p
-      button(@click="handleDevTool") popupDevTool
 </template>
 
 <script>
@@ -61,29 +42,23 @@ import { logo } from '@/modules'
 // import { pageFilterHelloWorld } from '@/filters'
 // import { pageMixinHelloWorld } from '@/mixins'
 // import { pageUtilHelloWorld } from '@/utils'
-import { bus } from '@/utils'
-import { pageHttpHelloWorld } from '@/http'
-import { mapGetters, mapActions } from 'vuex'
+// import { pageHttpHelloWorld } from '@/http'
+// import { mapGetters, mapActions } from 'vuex'
 // let { } = pageComponentHelloWorld
 // let { } = pageDirectiveHelloWorld
 // let { } = pageFilterHelloWorld
 // let { } = pageMixinHelloWorld
 // let { } = pageUtilHelloWorld
-import doc from '@/doc.md'
 
 export default {
   components: {
-    logo,
-    doc
+    logo
   },
   directives: {},
   filters: {},
   mixins: [],
   data () {
     return {
-      incrementPayload: 1,
-      decrementPayload: 2,
-      response: null,
       essentialLinks: [
         {
           name: 'Core Docs',
@@ -126,33 +101,7 @@ export default {
       ]
     }
   },
-  computed: {
-    ...mapGetters('helloWorld', {
-      vx_count: 'getCount'
-    })
-  },
-  destroyed () {
-    this.vx_reset()
-  },
-  methods: {
-    ...mapActions('helloWorld', {
-      vx_incrementCount: 'increment_count',
-      vx_decrementCount: 'decrement_count',
-      vx_reset: 'reset'
-    }),
-    async testHttpGet () {
-      this.response = await pageHttpHelloWorld.testHttpGet('testHttpGetData')
-        .then((res) => { return res })
-        .catch((err) => { return err })
-    },
-    async testHttpPost () {
-      this.response = await pageHttpHelloWorld.testHttpPost('testHttpPostData')
-        .then((res) => { return res })
-        .catch((err) => { return err })
-    },
-    handleDevTool () {
-      bus.actionEvent('popupDevTool.show')
-    }
-  }
+  computed: {},
+  methods: {}
 }
 </script>

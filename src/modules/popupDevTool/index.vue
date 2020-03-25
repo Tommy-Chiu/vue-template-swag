@@ -1,5 +1,28 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .handle-dev-tool {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 90;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .3);
+    margin: -15px;
+    padding: 0;
+    border: none;
+    outline: none;
+    transition: margin 0.3s ease;
+    &:hover {
+      margin: 0 -15px;
+    }
+  }
   .dev-tool-wrap {
     position: relative;
     box-shadow: 0 0 0 2000px rgba(0, 0, 0, .6);
@@ -39,20 +62,22 @@
 </style>
 
 <template lang="pug">
-  popup(:eventName="'popupDevTool'" :ref="'popup'")
-    div.dev-tool-wrap
-      panelSide.panel-side(
-        :firstType="firstType"
-        :secondType="secondType"
-        :moduleList="getModuleList()"
-        @switchType="switchType"
-      )
-      panelMain.panel-main(
-        :firstType="firstType"
-        :secondType="secondType"
-        :moduleList="getModuleList()"
-      )
-      a.close(@click="handleClose") x
+  a.handle-dev-tool(@click="handleDevTool")
+    icon.lightning(:name="'lightning'" :size="'20px'")
+    popup(:eventName="'popupDevTool'" :ref="'popup'")
+      div.dev-tool-wrap
+        panelSide.panel-side(
+          :firstType="firstType"
+          :secondType="secondType"
+          :moduleList="getModuleList()"
+          @switchType="switchType"
+        )
+        panelMain.panel-main(
+          :firstType="firstType"
+          :secondType="secondType"
+          :moduleList="getModuleList()"
+        )
+        a.close(@click.stop="handleClose") x
 </template>
 
 <script>
@@ -136,6 +161,9 @@ export default {
     },
     handleClose () {
       bus.actionEvent('popupDevTool.hide')
+    },
+    handleDevTool () {
+      bus.actionEvent('popupDevTool.show')
     }
   }
 }
