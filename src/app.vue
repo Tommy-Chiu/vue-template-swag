@@ -12,10 +12,16 @@
 <template lang="pug">
   div#app
     routerView
+    popupDevTool
 </template>
 
 <script>
+import { popupDevTool } from '@/modules'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    popupDevTool
+  }
 }
 </script>

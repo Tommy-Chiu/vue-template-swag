@@ -45,6 +45,9 @@
       button(@click="testHttpPost") post
     h2 markdown demo
     doc
+    h2 devTool
+    p
+      button(@click="handleDevTool") popupDevTool
 </template>
 
 <script>
@@ -54,6 +57,7 @@ import { logo } from '@/modules'
 // import { pageFilterHelloWorld } from '@/filters'
 // import { pageMixinHelloWorld } from '@/mixins'
 // import { pageUtilHelloWorld } from '@/utils'
+import { bus } from '@/utils'
 import { pageHttpHelloWorld } from '@/http'
 import { mapGetters, mapActions } from 'vuex'
 // let { } = pageComponentHelloWorld
@@ -141,6 +145,9 @@ export default {
       this.response = await pageHttpHelloWorld.testHttpPost('testHttpPostData')
         .then((res) => { return res })
         .catch((err) => { return err })
+    },
+    handleDevTool () {
+      bus.actionEvent('popupDevTool.show')
     }
   }
 }
