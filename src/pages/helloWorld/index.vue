@@ -21,37 +21,29 @@
   }
 </style>
 
-<template>
-  <div class="hello-world-wrap">
-    <svg aria-hidden="true">
-      <use :xlink:href="`#icon-logo`"></use>
-    </svg>
-    <h1>Welcome to Your Vue.js App</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li v-for="(item, index) in essentialLinks" :key="index">
-        <a :href="item.url" target="_blank">{{item.name}}</a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li v-for="(item, index) in ecosystem" :key="index">
-        <a :href="item.url" target="_blank">{{item.name}}</a>
-      </li>
-    </ul>
-    <h2>vuex demo</h2>
-    <p>
-      <button @click="vx_incrementCount(incrementPayload)">increment({{incrementPayload}})</button>
-      <span>{{vx_count}}</span>
-      <button @click="vx_decrementCount(decrementPayload)">decrement({{decrementPayload}})</button>
-    </p>
-    <h2>axios demo</h2>
-    <p>{{response}}</p>
-    <p>
-      <button @click="testHttpGet">get</button>
-      <button @click="testHttpPost">post</button>
-    </p>
-  </div>
+<template lang="pug">
+  div.hello-world-wrap
+    svg(aria-hidden="true")
+      use(:xlink:href="`#icon-logo`")
+    h1 Welcome to Your Vue.js App
+    h2 Essential Links
+    ul
+      li(v-for="(item, index) in essentialLinks" :key="index")
+        a(:href="item.url" target="_blank") {{item.name}}
+    h2 Ecosystem
+    ul
+      li(v-for="(item, index) in ecosystem" :key="index")
+        a(:href="item.url" target="_blank") {{item.name}}
+    h2 vuex demo
+    p
+      button(@click="vx_incrementCount(incrementPayload)") increment({{incrementPayload}})
+      span {{vx_count}}
+      button(@click="vx_decrementCount(decrementPayload)") decrement({{decrementPayload}})
+    h2 axios demo
+    p {{response}}
+    p
+      button(@click="testHttpGet") get
+      button(@click="testHttpPost") post
 </template>
 
 <script>

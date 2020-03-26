@@ -9,10 +9,9 @@
   }
 </style>
 
-<template>
-  <div id="app">
-    <routerView/>
-  </div>
+<template lang="pug">
+  div#app
+    routerView
 </template>
 
 <script>
