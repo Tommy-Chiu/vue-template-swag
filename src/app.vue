@@ -13,7 +13,7 @@
 <template lang="pug">
   div#app
     routerView
-    popupDevTool
+    popupDevTool(v-if="$root.process_env.NODE_ENV === 'development'")
     popupWindow
 </template>
 

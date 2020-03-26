@@ -24,5 +24,10 @@ new Vue({
   el: '#app',
   router,
   store,
+  data () {
+    return {
+      process_env: process.env
+    }
+  },
   render: h => h(app)
 })
