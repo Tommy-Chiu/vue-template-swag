@@ -219,7 +219,7 @@ export default {
       if (this.firstType === 'doc' && this.secondType === 'index') {
         module = {
           doc,
-          path: `/${doc.__file.split('/').slice(0, -1).join('/')}`
+          path: process.env.NODE_ENV === 'development' ? `/${doc.__file.split('/').slice(0, -1).join('/')}` : null
         }
       } else {
         if (this.secondType === 'index') {
