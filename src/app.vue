@@ -14,15 +14,18 @@
   div#app
     routerView
     popupDevTool
+    popupWindow
 </template>
 
 <script>
 import { popupDevTool } from '@/modules'
+import { popupWindow } from '@/components'
 
 export default {
   name: 'app',
   components: {
-    popupDevTool
+    popupDevTool,
+    popupWindow
   }
 }
 </script>

@@ -35,6 +35,15 @@
         line-height: 20px;
         user-select: none;
       }
+      & .btn {
+        padding: 2px 0;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        float: right;
+        display: none;
+        color: inherit;
+      }
       &.is-normal {
         color: #2C3E50;
       }
@@ -43,6 +52,9 @@
       }
       &:hover {
         color: #fff;
+        & .btn {
+          display: block;
+        }
       }
     }
     & .first-tab-list {
@@ -91,6 +103,7 @@
             @click="$emit('switchType', firstTabItem.name, 'index')"
           )
           span.text {{firstTabItem.name}}
+          button.btn(v-if="firstTabItem.hasScript" @click.stop="handleScript(firstTabItem.name, firstTabItem.path)") +
         ul.second-tab-list
           li.second-tab-item(v-for="(secondTabItem, i) in firstTabItem.child" :key="i")
             a.go-path(
@@ -101,6 +114,8 @@
 </template>
 
 <script>
+import { moduleHttpPopupDevTool } from '@/http'
+import { bus } from '@/utils'
 export default {
   props: {
     firstType: {
@@ -114,6 +129,72 @@ export default {
     moduleList: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    handleScript (type, path) {
+      switch (type) {
+        case 'pages':
+        case 'modules':
+        case 'components':
+        case 'directives':
+        case 'filters':
+        case 'mixins':
+        case 'utils':
+          bus.actionEvent('popupWindow', {
+            title: 'title',
+            lead: 'lead',
+            canClose: true,
+            canBlur: true,
+            cancelLabel: 'cancel',
+            confirmLabel: 'confirm',
+            jsonSchema: {
+              widget: 'input',
+              attrs: {
+                type: 'text'
+              },
+              model: {
+                name: 'input',
+                listener: (context, payload) => {
+                  context.listeners[ 'input' ](payload.target.value)
+                }
+              }
+            },
+            data: ''
+          }, ({ status, data }) => {
+            if (status === 'confirm') {
+              moduleHttpPopupDevTool.runScript({type, path, name: data})
+            }
+          })
+          break
+        case 'icons':
+          bus.actionEvent('popupWindow', {
+            title: 'title',
+            lead: 'lead',
+            canClose: true,
+            canBlur: true,
+            cancelLabel: 'cancel',
+            confirmLabel: 'confirm',
+            jsonSchema: {
+              widget: 'input',
+              attrs: {
+                type: 'file'
+              },
+              model: {
+                name: 'change',
+                listener: (context, payload) => {
+                  context.listeners[ 'input' ](payload.target.files)
+                }
+              }
+            },
+            data: ''
+          }, ({ status, data }) => {
+            if (status === 'confirm') {
+              moduleHttpPopupDevTool.runScript({type, path, files: data[0]})
+            }
+          })
+          break
+      }
     }
   }
 }

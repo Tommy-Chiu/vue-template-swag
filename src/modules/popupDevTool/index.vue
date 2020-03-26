@@ -61,6 +61,7 @@ import { bus, compareArr } from '@/utils'
 let { panelSide, panelMain } = moduleComponentPopupDevTool
 let docFiles = require.context('@', true, /\.md$/)
 let indexFiles = require.context('@', true, /index/)
+let scriptFiles = require.context('@', true, /script\.js$/)
 
 export default {
   components: {
@@ -95,8 +96,14 @@ export default {
           seq: parseInt(firstTypeArr[2].split('.')[0].split('_')[1]) || Infinity,
           path: `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}`,
           doc: docFiles(docFileKey).default,
+          hasScript: null,
           child: []
         }
+        scriptFiles.keys().forEach(function (scriptFileKey) {
+          let scriptArr = scriptFileKey.split('/')
+          if (scriptArr[1] !== firstType || scriptArr.length > 3) return
+          firstTypeItem.hasScript = !!scriptFiles(scriptFileKey)
+        })
         list.push(firstTypeItem)
         indexFiles.keys().forEach(function (indexFileKey) {
           let secondTypeArr = indexFileKey.split('/')
