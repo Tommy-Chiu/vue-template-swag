@@ -5,7 +5,7 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    redirect: '/hello_world'
+    redirect: '/hello_world' // The default home page
   }
 ]
 
@@ -14,6 +14,9 @@ files.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   let module = files(key).default
   module.name = arr[0]
+  if (module.isHomePage) {
+    routes[0].redirect = module.path
+  }
   module.component = (resolve) => {
     require([`./pages/${arr[0]}`], (component) => {
       component.default.name = arr[0]

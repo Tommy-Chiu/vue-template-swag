@@ -110,7 +110,7 @@
                 :class="firstTabItem.name === firstType && secondTabItem.name === secondType ? 'is-active' : 'is-normal'"
                 @click="$emit('switchType', firstTabItem.name, secondTabItem.name)"
               )
-              span.text \{{secondTabItem.name}}
+              span.text \{{secondTabItem.name}}\{{`${secondTabItem.isHomePage ? ' 🏠' : ''}`}}
 </template>
 
 <script>

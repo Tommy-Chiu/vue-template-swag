@@ -87,6 +87,7 @@ let { panelSide, panelMain } = moduleComponentPopupDevTool
 let docFiles = require.context('@', true, /\.md$/)
 let indexFiles = require.context('@', true, /index/)
 let scriptFiles = require.context('@', true, /script\.js$/)
+let routerFiles = require.context('@/pages', true, /router\/index\.js$/)
 
 let moduleList = []
 docFiles.keys().forEach(function (docFileKey) {
@@ -127,6 +128,13 @@ docFiles.keys().forEach(function (docFileKey) {
       secondTypeItem.path = process.env.NODE_ENV === 'development' ? `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}` : null
       secondTypeItem.doc = docFiles(docFileKey).default
     })
+    if (firstType === 'pages') {
+      routerFiles.keys().forEach(function (routerFileKey) {
+        if (secondType === routerFileKey.split('/')[1]) {
+          secondTypeItem.isHomePage = routerFiles(routerFileKey).default.isHomePage || false
+        }
+      })
+    }
     moduleList[result].child.push(secondTypeItem)
   })
 })
