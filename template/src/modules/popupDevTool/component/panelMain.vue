@@ -190,7 +190,7 @@
   div.panel-main-wrap
     div.ctrl
       strong Path：
-      span {{curModule.path}}
+      span \{{curModule.path}}
     div.content
       component.mdStyle(:is="curModule.doc")
 </template>

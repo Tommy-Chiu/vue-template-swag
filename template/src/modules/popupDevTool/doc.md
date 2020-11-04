@@ -336,7 +336,7 @@ description
 </style>
 
 <template lang="pug">
-  div.wrap {{content}}
+  div.wrap \{{content}}
 </template>
 
 <script>

@@ -28,11 +28,11 @@
     h2 Essential Links
     ul
       li(v-for="(item, index) in essentialLinks" :key="index")
-        a(:href="item.url" target="_blank") {{item.name}}
+        a(:href="item.url" target="_blank") \{{item.name}}
     h2 Ecosystem
     ul
       li(v-for="(item, index) in ecosystem" :key="index")
-        a(:href="item.url" target="_blank") {{item.name}}
+        a(:href="item.url" target="_blank") \{{item.name}}
 </template>
 
 <script>

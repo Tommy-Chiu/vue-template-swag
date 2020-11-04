@@ -97,13 +97,13 @@
   div.window-wrap
     button.close(v-if="parmsCanClose" @click="onClose") x
     div.header(v-if="parmsTitle")
-      p.title {{ parmsTitle }}
-      p.lead(v-if="parmsLead") {{ parmsLead }}
+      p.title \{{ parmsTitle }}
+      p.lead(v-if="parmsLead") \{{ parmsLead }}
     div.content
       jsonSchemaComp(v-if="jsonSchema" v-model="data" :jsonSchema="jsonSchema")
     div.footer(v-if="jsonSchema && ( parmsCancelLabel || parmsConfirmLabel )")
-      button.cancel(v-if="parmsCancelLabel" @click="onCancel") {{parmsCancelLabel}}
-      button.confirm(v-if="parmsConfirmLabel" @click="onConfirm") {{parmsConfirmLabel}}
+      button.cancel(v-if="parmsCancelLabel" @click="onCancel") \{{parmsCancelLabel}}
+      button.confirm(v-if="parmsConfirmLabel" @click="onConfirm") \{{parmsConfirmLabel}}
 </template>
 
 <script>

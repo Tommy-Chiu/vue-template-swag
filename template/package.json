@@ -1,11 +1,17 @@
 {
-  "name": "vue-template-swag",
+  "name": "{{ name }}",
   "version": "1.0.0",
-  "description": "A Vue.js project templata",
-  "author": "Tommy Chiu <tommy.chiu.1024@gmail.com>",
+  "description": "{{ description }}",
+  "author": "{{ author }}",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config template/build/webpack.dev.conf.js"
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "start": "npm run dev",
+    "unit": "jest --config test/unit/jest.conf.js --coverage",
+    "e2e": "node test/e2e/runner.js",
+    "test": "npm run unit && npm run e2e",
+    "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
+    "build": "node build/build.js"
   },
   "dependencies": {
     "axios": "^0.19.0",

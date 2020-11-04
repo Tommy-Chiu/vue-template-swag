@@ -2,16 +2,16 @@
 ## Vuex Demo
 <template lang="pug">
   div
-    p count：{{vx_count}}
+    p count：\{{vx_count}}
     p
-      button(@click="vx_incrementCount(incrementPayload)") increment({{incrementPayload}})
-      button(@click="vx_decrementCount(decrementPayload)") decrement({{decrementPayload}})
+      button(@click="vx_incrementCount(incrementPayload)") increment(\{{incrementPayload}})
+      button(@click="vx_decrementCount(decrementPayload)") decrement(\{{decrementPayload}})
 </template>
 
 ## Axios & Mock Demo
 <template lang="pug">
   div
-    p response：{{response}}
+    p response：\{{response}}
     p
       button(@click="testHttpGet") get
       button(@click="testHttpPost") post

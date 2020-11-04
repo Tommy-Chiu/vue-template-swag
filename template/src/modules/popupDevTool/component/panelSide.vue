@@ -95,14 +95,14 @@
         :class="firstType === 'doc' && secondType === 'index' ? 'is-active' : 'is-normal'"
         @click="$emit('switchType', 'doc', 'index')"
       )
-      span.text {{'Dev-Tool'}}
+      span.text \{{'Dev-Tool'}}
     ul.first-tab-list
       li.first-tab-item(v-for="(firstTabItem, index) in moduleList" :key="index")
         a.go-path(
             :class="firstTabItem.name === firstType && secondType === 'index' ? 'is-active' : 'is-normal'"
             @click="$emit('switchType', firstTabItem.name, 'index')"
           )
-          span.text {{firstTabItem.name}}
+          span.text \{{firstTabItem.name}}
           button.btn(v-if="firstTabItem.hasScript" @click.stop="handleScript(firstTabItem.name, firstTabItem.path)") +
         ul.second-tab-list
           li.second-tab-item(v-for="(secondTabItem, i) in firstTabItem.child" :key="i")
@@ -110,7 +110,7 @@
                 :class="firstTabItem.name === firstType && secondTabItem.name === secondType ? 'is-active' : 'is-normal'"
                 @click="$emit('switchType', firstTabItem.name, secondTabItem.name)"
               )
-              span.text {{secondTabItem.name}}
+              span.text \{{secondTabItem.name}}
 </template>
 
 <script>
