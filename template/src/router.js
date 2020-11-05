@@ -2,29 +2,34 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 
-const routes = [
+let routes = [
   {
     path: '/',
     redirect: '/hello_world' // The default home page
   }
 ]
-
+let concatRouters = []
 const files = require.context('./pages', true, /router\/index\.js$/)
 files.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   let module = files(key).default
   module.name = arr[0]
-  if (module.isHomePage) {
-    routes[0].redirect = module.path
-  }
   module.component = (resolve) => {
     require([`./pages/${arr[0]}`], (component) => {
-      component.default.name = arr[0]
+      component.default.name = `${arr[0]}Page`
       resolve(component)
     })
   }
-  routes.push(module)
+  if (module.isHomePage) {
+    routes[0].redirect = module.path
+  }
+  if (module.isNotFoundPage) {
+    concatRouters.push(module)
+  } else {
+    concatRouters.unshift(module)
+  }
 })
+routes = routes.concat(concatRouters)
 
 const instance = new Router({
   /******************************************************************************
