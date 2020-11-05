@@ -26,7 +26,20 @@ files.keys().forEach(key => {
   routes.push(module)
 })
 
-export default new Router({
+const instance = new Router({
+  /******************************************************************************
+   * TODO:
+   * When using history mode,
+   * all you need to do is add a simple catch-all fallback route to your server.
+   * If the URL doesn't match any static assets,
+   * it should serve the same index.html page
+   ******************************************************************************/
   mode: 'history',
   routes
 })
+
+instance.beforeEach((to, from, next) => {
+  next()
+})
+
+export default instance
