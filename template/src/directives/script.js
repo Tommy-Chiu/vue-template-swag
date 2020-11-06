@@ -1,19 +1,16 @@
 const fs = require('fs')
 const path = require('path')
+const getFileTemplateByType = require('../../devUtils/getFileTemplateByType')
 
 module.exports = (req, res, next) => {
   let directiveName = req.body.name
-  let directiveTemp = `export default {
-  bind (el, binding, vnode) {},
-  inserted (el, binding, vnode) {},
-  update (el, binding, vnode) {},
-  componentUpdated (el, binding, vnode) {},
-  unbind (el, binding, vnode) {}
-}
-`
-  let basePath = path.resolve(__dirname)
-  fs.mkdirSync(`${basePath}/${directiveName}`) // mkdir
-  process.chdir(`${basePath}/${directiveName}`) // cd dir
-  fs.writeFileSync(`index.js`, directiveTemp) // directiveTemp
+  let dirPath = path.resolve(__dirname, directiveName)
+
+  fs.mkdirSync(dirPath) // mkdir
+  process.chdir(dirPath) // cd dir
+
+  fs.writeFileSync(`index.js`, getFileTemplateByType('directiveIndexJs'))
+  fs.writeFileSync('doc.md', getFileTemplateByType('docMd'))
+
   next()
 }
