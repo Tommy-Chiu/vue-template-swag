@@ -16,5 +16,13 @@ module.exports = (type, name) => {
       return getTemplate('filter.index.js')
     case 'utilIndexJs':
       return getTemplate('util.index.js')
+    case 'routerIndexJs':
+      return getTemplate('router.index.js').replace(new RegExp('replaceName','g'), name.replace(/([A-Z])/g, '_$1').toLowerCase())
+    case 'httpApiJs':
+      return getTemplate('http.api.js')
+    case 'httpIndexJs':
+      return getTemplate('http.index.js')
+    case 'storeIndexJs':
+      return getTemplate('store.index.js')
   }
 }
