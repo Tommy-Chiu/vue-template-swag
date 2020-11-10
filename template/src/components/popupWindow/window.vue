@@ -107,10 +107,8 @@
 </template>
 
 <script>
-import { getTypeOfData }
-  from '@/utils'
-import jsonSchemaComp
-  from '../jsonSchemaComp'
+import { getTypeOfData } from '@/utils'
+import { jsonSchemaComp } from '@/components'
 
 export default {
   name: 'window',

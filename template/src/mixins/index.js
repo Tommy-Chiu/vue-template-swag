@@ -1,3 +1,5 @@
+const getMapper = require('../utils').getMapper
+
 const files = require.context('./', true, /index\.vue$/)
 files.keys().forEach(key => {
   let mixin = files(key).default
@@ -12,7 +14,7 @@ const pageMixinFiles = require.context('../pages', true, /index\.js$/)
 pageMixinFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   if (arr[1] === 'mixin') {
-    exports[`pageMixin${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageMixinFiles(key).default
+    exports[`pages/${arr[0]}`] = pageMixinFiles(key).default
   }
 })
 
@@ -20,6 +22,8 @@ const moduleMixinFiles = require.context('../modules', true, /index\.js$/)
 moduleMixinFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   if (arr[1] === 'mixin') {
-    exports[`moduleMixin${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleMixinFiles(key).default
+    exports[`modules/${arr[0]}`] = moduleMixinFiles(key).default
   }
 })
+
+exports.mapper = getMapper(exports, 'array')

@@ -1,3 +1,5 @@
+import { mapGetters, mapActions } from 'vuex'
+
 const files = require.context('./', true, /index\.js$/)
 files.keys().forEach(key => {
   if (key === './index.js') return
@@ -10,7 +12,7 @@ const pageUtilFiles = require.context('../pages', true, /index\.js$/)
 pageUtilFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   if (arr[1] === 'util') {
-    exports[`pageUtil${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageUtilFiles(key).default
+    exports[`pages/${arr[0]}`] = pageUtilFiles(key).default
   }
 })
 
@@ -18,6 +20,50 @@ const moduleUtilFiles = require.context('../modules', true, /index\.js$/)
 moduleUtilFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   if (arr[1] === 'util') {
-    exports[`moduleUtil${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleUtilFiles(key).default
+    exports[`modules/${arr[0]}`] = moduleUtilFiles(key).default
   }
 })
+
+export const getMapper = function (source, structureType) {
+  return function () {
+    let namespace, map, res
+    if (arguments.length > 1) {
+      namespace = arguments[ 0 ]
+      map = arguments[ 1 ]
+      if (!source[ namespace ]) {
+        console.error(`[getMapper]can not found ${namespace}!`)
+        return
+      }
+      res = source[ namespace ]
+    } else {
+      namespace = ''
+      map = arguments[ 0 ]
+      res = source
+    }
+    let components = structureType && structureType === 'array' ? [] : {}
+    getComponents(res, map)
+    function getComponents (res, map) {
+      map.forEach((key) => {
+        if (typeof key === 'string') {
+          if (res.hasOwnProperty(key)) {
+            structureType && structureType === 'array'
+              ? components.push(res[ key ])
+              : components[ key ] = res[ key ]
+          }
+        } else if (typeof key === 'object') {
+          Object.keys(key).forEach((k) => {
+            getComponents(res[ k ], key[ k ])
+          })
+        }
+      })
+    }
+    return components
+  }
+}
+
+exports.mapComponents = require('@/components').mapper
+exports.mapDirectives = require('@/directives').mapper
+exports.mapFilters = require('@/filters').mapper
+exports.mapMixins = require('@/mixins').mapper
+exports.mapGetters = mapGetters
+exports.mapActions = mapActions

@@ -32,10 +32,8 @@
 </template>
 
 <script>
-import { bus }
-  from '@/utils'
-import { onElementResize }
-  from '@/directives'
+import { bus } from '@/utils'
+import { onElementResize } from '@/directives'
 
 export default {
   directives: {

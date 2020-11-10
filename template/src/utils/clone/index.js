@@ -1,4 +1,4 @@
-import getTypeOfData from '../getTypeOfData'
+import { getTypeOfData } from '@/utils'
 
 export default {
   shallow: function (data) {

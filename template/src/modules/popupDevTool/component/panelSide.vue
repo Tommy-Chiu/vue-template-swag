@@ -115,7 +115,18 @@
 
 <script>
 import { moduleHttpPopupDevTool } from '@/http'
-import { bus } from '@/utils'
+import { bus
+  // moduleUtilPopupDevTool,
+  // mapComponents,
+  // mapDirectives,
+  // mapFilters,
+  // mapMixins,
+  // mapGetters,
+  // mapActions
+} from '@/utils'
+let { runScript } = moduleHttpPopupDevTool
+// let { } = moduleUtilPopupDevTool
+
 export default {
   props: {
     firstType: {
@@ -163,7 +174,7 @@ export default {
             data: ''
           }, ({ status, data }) => {
             if (status === 'confirm') {
-              moduleHttpPopupDevTool.runScript({type, path, name: data})
+              runScript({type, path, name: data})
             }
           })
           break
@@ -190,7 +201,7 @@ export default {
             data: ''
           }, ({ status, data }) => {
             if (status === 'confirm') {
-              moduleHttpPopupDevTool.runScript({type, path, files: data[0]})
+              runScript({type, path, files: data[0]})
             }
           })
           break

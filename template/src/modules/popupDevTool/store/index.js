@@ -1,5 +1,4 @@
-import { clone }
-  from '@/utils'
+import { clone } from '@/utils'
 
 const stateTemplate = {
   count: 0

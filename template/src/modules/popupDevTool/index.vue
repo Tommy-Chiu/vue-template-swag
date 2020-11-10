@@ -81,9 +81,19 @@
 </template>
 
 <script>
-import { popup, moduleComponentPopupDevTool } from '@/components'
-import { bus, compareArr } from '@/utils'
-let { panelSide, panelMain } = moduleComponentPopupDevTool
+// import { moduleHttpPopupDevTool } from '@/http'
+import { bus, compareArr,
+  // moduleUtilPopupDevTool,
+  mapComponents
+  // mapDirectives,
+  // mapFilters,
+  // mapMixins,
+  // mapGetters,
+  // mapActions
+} from '@/utils'
+// let { } = moduleHttpPopupDevTool
+// let { } = moduleUtilPopupDevTool
+
 let docFiles = require.context('@', true, /\.md$/)
 let indexFiles = require.context('@', true, /index/)
 let scriptFiles = require.context('@', true, /script\.js$/)
@@ -142,9 +152,13 @@ moduleList = compareArr(moduleList, 'seq')
 
 export default {
   components: {
-    popup,
-    panelSide,
-    panelMain
+    ...mapComponents([
+      'popup'
+    ]),
+    ...mapComponents('modules/popupDevTool', [
+      'panelMain',
+      'panelSide'
+    ])
   },
   data () {
     return {

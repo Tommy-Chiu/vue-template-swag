@@ -196,6 +196,18 @@
 </template>
 
 <script>
+// import { moduleHttpPopupDevTool } from '@/http'
+// import {
+//   // moduleUtilPopupDevTool,
+//   // mapComponents,
+//   // mapDirectives,
+//   // mapFilters,
+//   // mapMixins,
+//   // mapGetters,
+//   // mapActions
+// } from '@/utils'
+// let { } = moduleHttpPopupDevTool
+// let { } = moduleUtilPopupDevTool
 import doc from '@/doc.md'
 
 export default {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import popup from '../popup'
+import { popup } from '@/components'
 import window from './window'
 
 export default {

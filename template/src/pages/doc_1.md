@@ -18,41 +18,51 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
-  import { moduleHttpPopupDevTool } from '@/http'
+import { moduleHttpPopupDevTool } from '@/http'
+import { bus, compareArr,
+  // moduleUtilPopupDevTool,
+  // mapComponents,
+  // mapDirectives,
+  // mapFilters,
+  // mapMixins,
+  mapGetters,
+  mapActions
+} from '@/utils'
+let { testHttpGet, testHttpPost } = moduleHttpPopupDevTool
+// let { } = moduleUtilPopupDevTool
 
-  export default {
-    data () {
-      return {
-        incrementPayload: 1,
-        decrementPayload: 2,
-        response: null
-      }
+export default {
+  data () {
+    return {
+      incrementPayload: 1,
+      decrementPayload: 2,
+      response: null
+    }
+  },
+  computed: {
+    ...mapGetters('modules/popupDevTool', {
+      vx_count: 'getCount'
+    })
+  },
+  destroyed () {
+    this.vx_reset()
+  },
+  methods: {
+    ...mapActions('modules/popupDevTool', {
+      vx_incrementCount: 'increment_count',
+      vx_decrementCount: 'decrement_count',
+      vx_reset: 'reset'
+    }),
+    async testHttpGet () {
+      this.response = await testHttpGet('testHttpGetData')
+        .then((res) => { return res })
+        .catch((err) => { return err })
     },
-    computed: {
-      ...mapGetters('popupDevTool', {
-        vx_count: 'getCount'
-      })
-    },
-    destroyed () {
-      this.vx_reset()
-    },
-    methods: {
-      ...mapActions('popupDevTool', {
-        vx_incrementCount: 'increment_count',
-        vx_decrementCount: 'decrement_count',
-        vx_reset: 'reset'
-      }),
-      async testHttpGet () {
-        this.response = await moduleHttpPopupDevTool.testHttpGet('testHttpGetData')
-          .then((res) => { return res })
-          .catch((err) => { return err })
-      },
-      async testHttpPost () {
-        this.response = await moduleHttpPopupDevTool.testHttpPost('testHttpPostData')
-          .then((res) => { return res })
-          .catch((err) => { return err })
-      }
+    async testHttpPost () {
+      this.response = await testHttpPost('testHttpPostData')
+        .then((res) => { return res })
+        .catch((err) => { return err })
     }
   }
+}
 </script>

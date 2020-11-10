@@ -1,4 +1,4 @@
-import getTypeOfData from '../getTypeOfData'
+import { getTypeOfData } from '@/utils'
 
 export default (data) => {
   if (getTypeOfData(data) === 'string') {
