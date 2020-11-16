@@ -103,7 +103,8 @@
             @click="$emit('switchType', firstTabItem.name, 'index')"
           )
           span.text \{{firstTabItem.name}}
-          button.btn(v-if="firstTabItem.hasScript" @click.stop="handleScript(firstTabItem.name, firstTabItem.path)") +
+          button.btn(v-if="firstTabItem.hasScript" @click.stop="handleScript(firstTabItem.name, firstTabItem.path)")
+            icon(:name="'add-box-line'" :size="'16px'" color="#fff")
         ul.second-tab-list
           li.second-tab-item(v-for="(secondTabItem, i) in firstTabItem.child" :key="i")
             a.go-path(
@@ -111,13 +112,18 @@
                 @click="$emit('switchType', firstTabItem.name, secondTabItem.name)"
               )
               span.text \{{secondTabItem.name}}\{{`${secondTabItem.isHomePage ? ' 🏠' : ''}`}}
+              button.btn(
+                  v-if="firstTabItem.name === 'pages' || firstTabItem.name === 'modules'"
+                  @click.stop="addSubModule(firstTabItem.name, secondTabItem.path)"
+                )
+                icon(:name="'add-box-line'" :size="'16px'" color="#fff")
 </template>
 
 <script>
 import { moduleHttpPopupDevTool } from '@/http'
-import { bus
+import { bus,
   // moduleUtilPopupDevTool,
-  // mapComponents,
+  mapComponents
   // mapDirectives,
   // mapFilters,
   // mapMixins,
@@ -142,6 +148,13 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      ...mapComponents('modules/popupDevTool', [
+        {'scriptFormPanels': ['mainTypeTextPanel', 'mainTypeFilePanel', 'subTypePanel']}
+      ])
+    }
+  },
   methods: {
     handleScript (type, path) {
       switch (type) {
@@ -160,14 +173,11 @@ export default {
             cancelLabel: 'cancel',
             confirmLabel: 'confirm',
             jsonSchema: {
-              widget: 'input',
-              attrs: {
-                type: 'text'
-              },
+              widget: this.mainTypeTextPanel,
               model: {
-                name: 'input',
+                name: 'sync',
                 listener: (context, payload) => {
-                  context.listeners[ 'input' ](payload.target.value)
+                  context.listeners[ 'input' ](payload)
                 }
               }
             },
@@ -187,25 +197,49 @@ export default {
             cancelLabel: 'cancel',
             confirmLabel: 'confirm',
             jsonSchema: {
-              widget: 'input',
-              attrs: {
-                type: 'file'
-              },
+              widget: this.mainTypeFilePanel,
               model: {
-                name: 'change',
+                name: 'sync',
                 listener: (context, payload) => {
-                  context.listeners[ 'input' ](payload.target.files)
+                  context.listeners[ 'input' ](payload)
                 }
               }
             },
-            data: ''
+            data: null
           }, ({ status, data }) => {
             if (status === 'confirm') {
-              runScript({type, path, files: data[0]})
+              runScript({type, path, files: data})
             }
           })
           break
       }
+    },
+    addSubModule (type, path) {
+      bus.actionEvent('popupWindow', {
+        title: 'title',
+        lead: 'lead',
+        canClose: true,
+        canBlur: true,
+        cancelLabel: 'cancel',
+        confirmLabel: 'confirm',
+        jsonSchema: {
+          widget: this.subTypePanel,
+          model: {
+            name: 'sync',
+            listener: (context, payload) => {
+              context.listeners[ 'input' ](payload)
+            }
+          }
+        },
+        data: {
+          name: '',
+          type: 'component'
+        }
+      }, ({ status, data }) => {
+        if (status === 'confirm') {
+          runScript({ type, path, name: data.name, subType: data.type })
+        }
+      })
     }
   }
 }

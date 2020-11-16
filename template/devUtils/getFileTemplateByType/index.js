@@ -24,5 +24,9 @@ module.exports = (type, name) => {
       return getTemplate('http.index.js')
     case 'storeIndexJs':
       return getTemplate('store.index.js')
+    case 'exportCMJs':
+      return getTemplate('exportCM.js')
+    case 'exportDFUJs':
+      return getTemplate('exportDFU.js')
   }
 }
