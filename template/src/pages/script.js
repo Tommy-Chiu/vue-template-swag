@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
     fs.mkdirSync(dirPath) // mkdir
     process.chdir(dirPath) // cd dir
 
-    fs.writeFileSync('index.vue', getFileTemplateByType('componentIndexVue', pageName))
+    fs.writeFileSync('index.vue', getFileTemplateByType('componentVue', pageName))
     fs.writeFileSync('doc.md', getFileTemplateByType('docMd'))
     fs.mkdirSync('./route') // mkdir
     fs.writeFileSync('./route/index.js', getFileTemplateByType('routeIndexJs', pageName))
@@ -36,13 +36,13 @@ module.exports = (req, res, next) => {
       }
       // console.log('access');
       if (subType === 'components' || subType === 'mixins') {
-        fs.writeFileSync(`./${subType}/${name}.vue`, getFileTemplateByType('componentIndexVue', name))
+        fs.writeFileSync(`./${subType}/${name}.vue`, getFileTemplateByType('componentVue', name))
       } else if (subType === 'directives') {
-        fs.writeFileSync(`./${subType}/${name}.js`, getFileTemplateByType('directiveIndexJs'))
+        fs.writeFileSync(`./${subType}/${name}.js`, getFileTemplateByType('directiveJs'))
       } else if (subType === 'filters') {
-        fs.writeFileSync(`./${subType}/${name}.js`, getFileTemplateByType('filterIndexJs'))
+        fs.writeFileSync(`./${subType}/${name}.js`, getFileTemplateByType('filterJs'))
       } else if (subType === 'utils') {
-        fs.writeFileSync(`./${subType}/${name}.js`, getFileTemplateByType('utilIndexJs'))
+        fs.writeFileSync(`./${subType}/${name}.js`, getFileTemplateByType('utilJs'))
       }
     })
   }

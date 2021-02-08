@@ -8,14 +8,14 @@ module.exports = (type, name) => {
   switch (type) {
     case 'docMd':
       return getTemplate('doc.md')
-    case 'componentIndexVue':
-      return getTemplate('component.index.vue').replace(new RegExp('replaceName','g'), name.replace(/([A-Z])/g, '-$1').toLowerCase())
-    case 'directiveIndexJs':
-      return getTemplate('directive.index.js')
-    case 'filterIndexJs':
-      return getTemplate('filter.index.js')
-    case 'utilIndexJs':
-      return getTemplate('util.index.js')
+    case 'componentVue':
+      return getTemplate('component.vue').replace(new RegExp('replaceName','g'), name.replace(/([A-Z])/g, '-$1').toLowerCase())
+    case 'directiveJs':
+      return getTemplate('directive.js')
+    case 'filterJs':
+      return getTemplate('filter.js')
+    case 'utilJs':
+      return getTemplate('util.js')
     case 'routeIndexJs':
       return getTemplate('route.index.js').replace(new RegExp('replaceName','g'), name.replace(/([A-Z])/g, '_$1').toLowerCase())
     case 'requestsUrlJs':

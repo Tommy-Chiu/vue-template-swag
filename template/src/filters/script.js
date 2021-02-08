@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
   fs.mkdirSync(dirPath) // mkdir
   process.chdir(dirPath) // cd dir
 
-  fs.writeFileSync(`index.js`, getFileTemplateByType('filterIndexJs'))
+  fs.writeFileSync(`index.js`, getFileTemplateByType('filterJs'))
   fs.writeFileSync('doc.md', getFileTemplateByType('docMd'))
 
   next()
