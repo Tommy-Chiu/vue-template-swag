@@ -10,20 +10,14 @@ files.keys().forEach(key => {
   exports[mixinName] = mixin
 })
 
-const pageMixinFiles = require.context('../pages', true, /index\.js$/)
+const pageMixinFiles = require.context('../pages', true, /mixins\/index\.js$/)
 pageMixinFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'mixins') {
-    exports[`pages/${arr[0]}`] = pageMixinFiles(key).default
-  }
+  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageMixinFiles(key).default
 })
 
-const moduleMixinFiles = require.context('../modules', true, /index\.js$/)
+const moduleMixinFiles = require.context('../modules', true, /mixins\/index\.js$/)
 moduleMixinFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'mixins') {
-    exports[`modules/${arr[0]}`] = moduleMixinFiles(key).default
-  }
+  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleMixinFiles(key).default
 })
 
 exports.mapper = getMapper(exports, 'array')

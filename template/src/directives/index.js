@@ -11,20 +11,14 @@ files.keys().forEach(key => {
   exports[directiveName] = directive
 })
 
-const pageDirectiveFiles = require.context('../pages', true, /index\.js$/)
+const pageDirectiveFiles = require.context('../pages', true, /directives\/index\.js$/)
 pageDirectiveFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'directives') {
-    exports[`pages/${arr[0]}`] = pageDirectiveFiles(key).default
-  }
+  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageDirectiveFiles(key).default
 })
 
-const moduleDirectiveFiles = require.context('../modules', true, /index\.js$/)
+const moduleDirectiveFiles = require.context('../modules', true, /directives\/index\.js$/)
 moduleDirectiveFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'directives') {
-    exports[`modules/${arr[0]}`] = moduleDirectiveFiles(key).default
-  }
+  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleDirectiveFiles(key).default
 })
 
 exports.mapper = getMapper(exports)

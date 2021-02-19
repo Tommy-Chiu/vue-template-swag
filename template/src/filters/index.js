@@ -11,20 +11,14 @@ files.keys().forEach(key => {
   exports[filterName] = filter
 })
 
-const pageFilterFiles = require.context('../pages', true, /index\.js$/)
+const pageFilterFiles = require.context('../pages', true, /filters\/index\.js$/)
 pageFilterFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'filters') {
-    exports[`pages/${arr[0]}`] = pageFilterFiles(key).default
-  }
+  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageFilterFiles(key).default
 })
 
-const moduleFilterFiles = require.context('../modules', true, /index\.js$/)
+const moduleFilterFiles = require.context('../modules', true, /filters\/index\.js$/)
 moduleFilterFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'filters') {
-    exports[`modules/${arr[0]}`] = moduleFilterFiles(key).default
-  }
+  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleFilterFiles(key).default
 })
 
 exports.mapper = getMapper(exports)

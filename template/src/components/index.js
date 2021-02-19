@@ -11,20 +11,14 @@ files.keys().forEach(key => {
   exports[componentName] = component
 })
 
-const pageComponentFiles = require.context('../pages', true, /index\.js$/)
+const pageComponentFiles = require.context('../pages', true, /components\/index\.js$/)
 pageComponentFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'components') {
-    exports[`pages/${arr[0]}`] = pageComponentFiles(key).default
-  }
+  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageComponentFiles(key).default
 })
 
-const moduleComponentFiles = require.context('../modules', true, /index\.js$/)
+const moduleComponentFiles = require.context('../modules', true, /components\/index\.js$/)
 moduleComponentFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'components') {
-    exports[`modules/${arr[0]}`] = moduleComponentFiles(key).default
-  }
+  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleComponentFiles(key).default
 })
 
 exports.mapper = getMapper(exports)

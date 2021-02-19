@@ -8,20 +8,14 @@ files.keys().forEach(key => {
   exports[utilName] = util
 })
 
-const pageUtilFiles = require.context('../pages', true, /index\.js$/)
+const pageUtilFiles = require.context('../pages', true, /utils\/index\.js$/)
 pageUtilFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'utils') {
-    exports[`pages/${arr[0]}`] = pageUtilFiles(key).default
-  }
+  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageUtilFiles(key).default
 })
 
-const moduleUtilFiles = require.context('../modules', true, /index\.js$/)
+const moduleUtilFiles = require.context('../modules', true, /utils\/index\.js$/)
 moduleUtilFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'utils') {
-    exports[`modules/${arr[0]}`] = moduleUtilFiles(key).default
-  }
+  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleUtilFiles(key).default
 })
 
 export const getMapper = function (source, structureType) {
