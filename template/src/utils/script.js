@@ -1,16 +1,15 @@
 const fs = require('fs')
-const path = require('path')
 const getFileTemplateByType = require('../../devUtils/getFileTemplateByType')
 
 module.exports = (req, res, next) => {
   let utilName = req.body.name
-  let dirPath = path.resolve(__dirname, utilName)
 
-  fs.mkdirSync(dirPath) // mkdir
-  process.chdir(dirPath) // cd dir
+  process.chdir(__dirname) // cd dir
+  fs.mkdirSync(`./${utilName}`) // mkdir
+  process.chdir(`./${utilName}`) // cd dir
 
-  fs.writeFileSync(`index.js`, getFileTemplateByType('utilJs'))
-  fs.writeFileSync('doc.md', getFileTemplateByType('docMd'))
+  fs.writeFileSync(`./index.js`, getFileTemplateByType('utilJs'))
+  fs.writeFileSync('./doc.md', getFileTemplateByType('docMd'))
 
   next()
 }

@@ -184,7 +184,7 @@ export default {
             data: ''
           }, ({ status, data }) => {
             if (status === 'confirm') {
-              runScript({type, path, name: data})
+              runScript({type, targetPath: path, name: data})
             }
           })
           break
@@ -208,7 +208,7 @@ export default {
             data: null
           }, ({ status, data }) => {
             if (status === 'confirm') {
-              runScript({type, path, files: data})
+              runScript({type, targetPath: path, files: data})
             }
           })
           break
@@ -237,7 +237,7 @@ export default {
         }
       }, ({ status, data }) => {
         if (status === 'confirm') {
-          runScript({ type, path, name: data.name, subType: data.type })
+          runScript({ type, targetPath: path, name: data.name, childType: data.type })
         }
       })
     }

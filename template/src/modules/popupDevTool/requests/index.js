@@ -30,10 +30,6 @@ export default {
         headers = {'Content-Type': 'multipart/form-data'}
         break
     }
-    return post(url.runScript, {
-      scriptType: type,
-      scriptPath: path,
-      ...other
-    }, { headers })
+    return post(url.runScript, { type, path, ...other }, { headers })
   }
 }
