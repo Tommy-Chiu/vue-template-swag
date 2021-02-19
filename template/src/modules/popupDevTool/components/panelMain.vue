@@ -196,7 +196,7 @@
 </template>
 
 <script>
-// import { moduleHttpPopupDevTool } from '@/http'
+// import { moduleRequestsPopupDevTool } from '@/requestor'
 // import {
 //   // moduleUtilPopupDevTool,
 //   // mapComponents,
@@ -206,7 +206,7 @@
 //   // mapGetters,
 //   // mapActions
 // } from '@/utils'
-// let { } = moduleHttpPopupDevTool
+// let { } = moduleRequestsPopupDevTool
 // let { } = moduleUtilPopupDevTool
 import doc from '@/doc.md'
 

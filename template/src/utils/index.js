@@ -11,7 +11,7 @@ files.keys().forEach(key => {
 const pageUtilFiles = require.context('../pages', true, /index\.js$/)
 pageUtilFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'util') {
+  if (arr[1] === 'utils') {
     exports[`pages/${arr[0]}`] = pageUtilFiles(key).default
   }
 })
@@ -19,7 +19,7 @@ pageUtilFiles.keys().forEach(key => {
 const moduleUtilFiles = require.context('../modules', true, /index\.js$/)
 moduleUtilFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'util') {
+  if (arr[1] === 'utils') {
     exports[`modules/${arr[0]}`] = moduleUtilFiles(key).default
   }
 })

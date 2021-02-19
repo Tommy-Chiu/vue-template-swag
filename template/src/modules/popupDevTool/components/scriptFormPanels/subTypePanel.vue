@@ -22,7 +22,7 @@
     input(type="text" @change="editValue.name = $event.target.value")
     div
       label(
-          v-for="(item, i) in [ 'component' , 'directive', 'filter', 'mixin', 'util' ]" :key="i"
+          v-for="(item, i) in [ 'components' , 'directives', 'filters', 'mixins', 'utils' ]" :key="i"
           :for="item"
         )
         input.radio(

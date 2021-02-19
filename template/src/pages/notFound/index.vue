@@ -15,7 +15,7 @@
 </template>
 
 <script>
-// import { moduleHttpNotFound } from '@/http'
+// import { moduleRequestsNotFound } from '@/requestor'
 // import {
 //   // moduleUtilNotFound,
 //   // mapComponents,
@@ -25,7 +25,7 @@
 //   // mapGetters,
 //   // mapActions
 // } from '@/utils'
-// let { } = moduleHttpNotFound
+// let { } = moduleRequestsNotFound
 // let { } = moduleUtilNotFound
 
 export default {

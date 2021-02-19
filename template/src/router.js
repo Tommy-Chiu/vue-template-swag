@@ -8,8 +8,9 @@ let routes = [
     redirect: '/hello_world' // The default home page
   }
 ]
-let concatRouters = []
-const files = require.context('./pages', true, /router\/index\.js$/)
+
+let concatRoutes = []
+const files = require.context('./pages', true, /route\/index\.js$/)
 files.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   let module = files(key).default
@@ -24,12 +25,13 @@ files.keys().forEach(key => {
     routes[0].redirect = module.path
   }
   if (module.isNotFoundPage) {
-    concatRouters.push(module)
+    concatRoutes.push(module)
   } else {
-    concatRouters.unshift(module)
+    concatRoutes.unshift(module)
   }
 })
-routes = routes.concat(concatRouters)
+
+routes = routes.concat(concatRoutes)
 
 const instance = new Router({
   /******************************************************************************

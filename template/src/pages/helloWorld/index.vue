@@ -37,7 +37,7 @@
 
 <script>
 import { logo } from '@/modules'
-// import { pageHttpHelloWorld } from '@/http'
+// import { pageRequestsHelloWorld } from '@/requestor'
 // import {
 //   // pageUtilHelloWorld,
 //   // mapComponents,
@@ -47,7 +47,7 @@ import { logo } from '@/modules'
 //   // mapGetters,
 //   // mapActions
 // } from '@/utils'
-// let { } = pageHttpHelloWorld
+// let { } = pageRequestsHelloWorld
 // let { } = pageUtilHelloWorld
 
 export default {

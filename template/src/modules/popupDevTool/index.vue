@@ -81,7 +81,7 @@
 </template>
 
 <script>
-// import { moduleHttpPopupDevTool } from '@/http'
+// import { moduleRequestsPopupDevTool } from '@/requestor'
 import { bus, compareArr,
   // moduleUtilPopupDevTool,
   mapComponents
@@ -91,13 +91,13 @@ import { bus, compareArr,
   // mapGetters,
   // mapActions
 } from '@/utils'
-// let { } = moduleHttpPopupDevTool
+// let { } = moduleRequestsPopupDevTool
 // let { } = moduleUtilPopupDevTool
 
 let docFiles = require.context('@', true, /\.md$/)
 let indexFiles = require.context('@', true, /index/)
 let scriptFiles = require.context('@', true, /script\.js$/)
-let routerFiles = require.context('@/pages', true, /router\/index\.js$/)
+let routeFiles = require.context('@/pages', true, /route\/index\.js$/)
 
 let moduleList = []
 docFiles.keys().forEach(function (docFileKey) {
@@ -139,9 +139,9 @@ docFiles.keys().forEach(function (docFileKey) {
       secondTypeItem.doc = docFiles(docFileKey).default
     })
     if (firstType === 'pages') {
-      routerFiles.keys().forEach(function (routerFileKey) {
+      routeFiles.keys().forEach(function (routerFileKey) {
         if (secondType === routerFileKey.split('/')[1]) {
-          secondTypeItem.isHomePage = routerFiles(routerFileKey).default.isHomePage || false
+          secondTypeItem.isHomePage = routeFiles(routerFileKey).default.isHomePage || false
         }
       })
     }

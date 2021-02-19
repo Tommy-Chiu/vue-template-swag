@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { moduleHttpPopupDevTool } from '@/http'
+import { moduleRequestsPopupDevTool } from '@/requestor'
 import { bus, compareArr,
   // moduleUtilPopupDevTool,
   // mapComponents,
@@ -28,7 +28,7 @@ import { bus, compareArr,
   mapGetters,
   mapActions
 } from '@/utils'
-let { testHttpGet, testHttpPost } = moduleHttpPopupDevTool
+let { testHttpGet, testHttpPost } = moduleRequestsPopupDevTool
 // let { } = moduleUtilPopupDevTool
 
 export default {

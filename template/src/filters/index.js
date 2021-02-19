@@ -14,7 +14,7 @@ files.keys().forEach(key => {
 const pageFilterFiles = require.context('../pages', true, /index\.js$/)
 pageFilterFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'filter') {
+  if (arr[1] === 'filters') {
     exports[`pages/${arr[0]}`] = pageFilterFiles(key).default
   }
 })
@@ -22,7 +22,7 @@ pageFilterFiles.keys().forEach(key => {
 const moduleFilterFiles = require.context('../modules', true, /index\.js$/)
 moduleFilterFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'filter') {
+  if (arr[1] === 'filters') {
     exports[`modules/${arr[0]}`] = moduleFilterFiles(key).default
   }
 })

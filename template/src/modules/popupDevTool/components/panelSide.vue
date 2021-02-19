@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import { moduleHttpPopupDevTool } from '@/http'
+import { moduleRequestsPopupDevTool } from '@/requestor'
 import { bus,
   // moduleUtilPopupDevTool,
   mapComponents
@@ -130,7 +130,7 @@ import { bus,
   // mapGetters,
   // mapActions
 } from '@/utils'
-let { runScript } = moduleHttpPopupDevTool
+let { runScript } = moduleRequestsPopupDevTool
 // let { } = moduleUtilPopupDevTool
 
 export default {
@@ -233,7 +233,7 @@ export default {
         },
         data: {
           name: '',
-          type: 'component'
+          type: 'components'
         }
       }, ({ status, data }) => {
         if (status === 'confirm') {

@@ -14,7 +14,7 @@ files.keys().forEach(key => {
 const pageDirectiveFiles = require.context('../pages', true, /index\.js$/)
 pageDirectiveFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'directive') {
+  if (arr[1] === 'directives') {
     exports[`pages/${arr[0]}`] = pageDirectiveFiles(key).default
   }
 })
@@ -22,7 +22,7 @@ pageDirectiveFiles.keys().forEach(key => {
 const moduleDirectiveFiles = require.context('../modules', true, /index\.js$/)
 moduleDirectiveFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'directive') {
+  if (arr[1] === 'directives') {
     exports[`modules/${arr[0]}`] = moduleDirectiveFiles(key).default
   }
 })

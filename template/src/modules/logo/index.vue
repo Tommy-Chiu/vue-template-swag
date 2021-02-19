@@ -13,7 +13,7 @@
 </template>
 
 <script>
-// import { moduleHttpLogo } from '@/http'
+// import { moduleRequestsLogo } from '@/requestor'
 // import {
 //   // moduleUtilLogo,
 //   // mapComponents,
@@ -23,7 +23,7 @@
 //   // mapGetters,
 //   // mapActions
 // } from '@/utils'
-// let { } = moduleHttpLogo
+// let { } = moduleRequestsLogo
 // let { } = moduleUtilLogo
 
 export default {

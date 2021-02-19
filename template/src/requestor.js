@@ -118,14 +118,14 @@ export const del = (url, options = {}, otherOptions) => {
   })
 }
 
-const files = require.context('./pages', true, /http\/index\.js$/)
-files.keys().forEach(key => {
+const pageRequestFiles = require.context('./pages', true, /requests\/index\.js$/)
+pageRequestFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  exports[`pageHttp${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = files(key).default
+  exports[`pageRequests${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageRequestFiles(key).default
 })
 
-const moduleUtilFiles = require.context('./modules', true, /http\/index\.js$/)
-moduleUtilFiles.keys().forEach(key => {
+const moduleRequestFiles = require.context('./modules', true, /requests\/index\.js$/)
+moduleRequestFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  exports[`moduleHttp${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleUtilFiles(key).default
+  exports[`moduleRequests${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleRequestFiles(key).default
 })

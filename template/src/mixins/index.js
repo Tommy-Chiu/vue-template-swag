@@ -13,7 +13,7 @@ files.keys().forEach(key => {
 const pageMixinFiles = require.context('../pages', true, /index\.js$/)
 pageMixinFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'mixin') {
+  if (arr[1] === 'mixins') {
     exports[`pages/${arr[0]}`] = pageMixinFiles(key).default
   }
 })
@@ -21,7 +21,7 @@ pageMixinFiles.keys().forEach(key => {
 const moduleMixinFiles = require.context('../modules', true, /index\.js$/)
 moduleMixinFiles.keys().forEach(key => {
   let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  if (arr[1] === 'mixin') {
+  if (arr[1] === 'mixins') {
     exports[`modules/${arr[0]}`] = moduleMixinFiles(key).default
   }
 })

@@ -36,7 +36,7 @@
 │   ├── assets
 │   ├── components              // 公共自定义组件（业务无关）
 │   │   ├── ...                // 可通过左边栏创建（左边栏 -> components -> 添加按钮）
-│   │   ├── index.js           // 通过 require.context 批量 import，再通过 遍历 批量 exports 模块，
+│   │   ├── index.js           // 通过 require.context 批量 import，再通过 遍历 批量 exports 模块，其他同级路径下同名文件相同
 │   │   ├── doc.md             // 当前文件夹说明文档（请勿删改, popupDevTool 强依赖，其他同级路径下同名文件相同）
 │   │   └── script.js          // 脚本（请勿删改，popupDevTool 强依赖，其他同级路径下同名文件相同）
 │   │
@@ -80,8 +80,8 @@
 │   │   │    // 创建页面默认文件
 │   │   │   ├── doc.md        // 页面说明文档，可用于描述页面 业务流程 等
 │   │   │   ├── index.vue     // 页面根组件
-│   │   │   ├── router        // 汇总至 @/router.js，设置isHomePage为true可重定向 '/' 为 '/该路由'
-│   │   │   ├── http          // 汇总至 @/http.js
+│   │   │   ├── route         // 汇总至 @/router.js，设置isHomePage为true可重定向 '/' 为 '/该路由'
+│   │   │   ├── requests      // 汇总至 @/requestor.js
 │   │   │   ├── store         // 汇总至 @/store.js
 │   │   │
 │   │   │    // 非创建页面默认，可通过左边栏 -> pages -> xxx（如：helloWorld）-> 添加按钮创建
@@ -102,7 +102,7 @@
 │   │   │    // 创建页面默认文件
 │   │   │   ├── doc.md        // 页面说明文档，可用于描述页面 业务流程 等
 │   │   │   ├── index.vue     // 模块根组件
-│   │   │   ├── http          // 汇总至 @/http.js
+│   │   │   ├── requests      // 汇总至 @/requestor.js
 │   │   │   ├── store         // 汇总至 @/store.js
 │   │   │
 │   │   │    // 非创建页面默认，可通过左边栏 -> pages -> xxx（如：helloWorld）-> 添加按钮创建
@@ -122,7 +122,7 @@
 │   ├── main.js
 │   ├── router.js
 │   ├── store.js
-│   ├── http.js
+│   ├── requestor.js
 │   └── doc.md                 // 项目说明文档（业务相关）
 │
 ├── test

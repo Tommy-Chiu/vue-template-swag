@@ -1,16 +1,16 @@
 import { get, post }
-  from '@/http'
-import * as api
-  from './api'
+  from '@/requestor'
+import * as url
+  from './url'
 
 export default {
   testHttpGet (count) {
-    return get(api.testGet, {
+    return get(url.testGet, {
       count
     })
   },
   testHttpPost (count) {
-    return post(api.testPost, {
+    return post(url.testPost, {
       count
     })
   },
@@ -30,7 +30,7 @@ export default {
         headers = {'Content-Type': 'multipart/form-data'}
         break
     }
-    return post(api.runScript, {
+    return post(url.runScript, {
       scriptType: type,
       scriptPath: path,
       ...other
