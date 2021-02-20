@@ -67,15 +67,13 @@
     popup(:eventName="'popupDevTool'" :ref="'popup'")
       div.dev-tool-wrap
         panelSide.panel-side(
-          :firstType="firstType"
-          :secondType="secondType"
+          :path="modulePath"
           :moduleList="moduleList"
-          @switchType="switchType"
+          @selectModule="selectModule"
         )
         panelMain.panel-main(
-          :firstType="firstType"
-          :secondType="secondType"
-          :moduleList="moduleList"
+          :path="modulePath"
+          :doc="doc"
         )
         a.close(@click.stop="handleClose") x
 </template>
@@ -93,62 +91,63 @@ import { bus, compareArr,
 } from '@/utils'
 // let { } = moduleRequestsPopupDevTool
 // let { } = moduleUtilPopupDevTool
+import doc from '@/doc.md'
 
 let docFiles = require.context('@', true, /\.md$/)
 let indexFiles = require.context('@', true, /index/)
 let scriptFiles = require.context('@', true, /script\.js$/)
 let routeFiles = require.context('@/pages', true, /route\/index\.js$/)
 
-let moduleList = []
-docFiles.keys().forEach(function (docFileKey) {
-  let firstTypeArr = docFileKey.split('/')
-  if (firstTypeArr.length === 2) return
-  if (firstTypeArr.length > 3) return
-  let firstType = firstTypeArr[1].split('_')[0]
-  let firstTypeItem = {
-    name: firstType,
-    seq: parseInt(firstTypeArr[2].split('.')[0].split('_')[1]) || Infinity,
+function getMainTypeModule (pathArr, docFileKey) {
+  let type = pathArr[1].split('_')[0]
+  let module = {
+    name: type,
+    seq: parseInt(pathArr[2].split('.')[0].split('_')[1]) || Infinity,
     path: process.env.NODE_ENV === 'development' ? `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}` : null,
-    doc: docFiles(docFileKey).default,
-    hasScript: null,
-    child: []
+    docPath: docFileKey,
+    scriptType: null,
+    children: []
   }
   scriptFiles.keys().forEach(function (scriptFileKey) {
     let scriptArr = scriptFileKey.split('/')
-    if (scriptArr[1] !== firstType || scriptArr.length > 3) return
-    firstTypeItem.hasScript = !!scriptFiles(scriptFileKey)
+    if (scriptArr[1] !== type || scriptArr.length > 3) return
+    module.scriptType = 'main'
   })
-  moduleList.push(firstTypeItem)
-  indexFiles.keys().forEach(function (indexFileKey) {
-    let secondTypeArr = indexFileKey.split('/')
-    if (secondTypeArr[1] !== firstType || secondTypeArr.length !== 4 || (secondTypeArr[secondTypeArr.length - 1] === 'index')) return
-    let secondType = secondTypeArr[2]
-    let result = moduleList.findIndex((item) => {
-      return item.name === firstType
-    })
-    if (result === -1) return
-    let secondTypeItem = {
-      name: secondType,
-      path: '',
-      doc: ''
-    }
-    docFiles.keys().forEach(function (docFileKey) {
-      let secondTypeDocArr = docFileKey.split('/')
-      if (secondTypeDocArr[1] !== firstType || secondTypeDocArr[2] !== secondType || secondTypeArr.length !== 4) return
-      secondTypeItem.path = process.env.NODE_ENV === 'development' ? `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}` : null
-      secondTypeItem.doc = docFiles(docFileKey).default
-    })
-    if (firstType === 'pages') {
-      routeFiles.keys().forEach(function (routerFileKey) {
-        if (secondType === routerFileKey.split('/')[1]) {
-          secondTypeItem.isHomePage = routeFiles(routerFileKey).default.isHomePage || false
-        }
-      })
-    }
-    moduleList[result].child.push(secondTypeItem)
+  return module
+}
+function getChildTypeModule (mainType, pathArr) {
+  let module = {
+    name: pathArr[ 2 ],
+    path: '',
+    docPath: '',
+    scriptType: null,
+    mainType
+  }
+  docFiles.keys().forEach(function (docFileKey) {
+    let docFilePathArr = docFileKey.split('/')
+    if (docFilePathArr[ 1 ] !== mainType || docFilePathArr[ 2 ] !== pathArr[ 2 ]) return
+    module.path = process.env.NODE_ENV === 'development'
+      ? `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}`
+      : null
+    module.docPath = docFileKey
   })
-})
-moduleList = compareArr(moduleList, 'seq')
+  if (mainType === 'modules') {
+    module.scriptType = 'child'
+  }
+  if (mainType === 'pages') {
+    module.scriptType = 'child'
+    routeFiles.keys().forEach(function (routeFileKey) {
+      let routerFilePathArr = routeFileKey.split('/')
+      if (
+        routerFilePathArr.slice(1, routerFilePathArr.length - 2).length === 1 &&
+        routerFilePathArr[1] === module.name
+      ) {
+        module.isHomePage = routeFiles(routeFileKey).default.isHomePage || false
+      }
+    })
+  }
+  return module
+}
 
 export default {
   components: {
@@ -162,9 +161,39 @@ export default {
   },
   data () {
     return {
-      firstType: 'doc',
-      secondType: 'index',
-      moduleList
+      modulePath: '/src',
+      docPath: './doc.md'
+    }
+  },
+  computed: {
+    moduleList () {
+      let moduleList = []
+      docFiles.keys().forEach(function (docFileKey) {
+        let mainTypePathArr = docFileKey.split('/')
+        if (
+          mainTypePathArr.length === 2 ||
+          mainTypePathArr.length > 3
+        ) return
+        let mainTypeModule = getMainTypeModule(mainTypePathArr, docFileKey)
+        moduleList.push(mainTypeModule)
+        indexFiles.keys().forEach(function (indexFileKey) {
+          let childTypePathArr = indexFileKey.split('/')
+          if (
+            childTypePathArr[ 1 ] !== mainTypeModule.name ||
+            childTypePathArr.length !== 4 ||
+            childTypePathArr[ childTypePathArr.length - 1 ] === 'index'
+          ) return
+          mainTypeModule.children.push(getChildTypeModule(mainTypeModule.name, childTypePathArr))
+        })
+      })
+      moduleList = compareArr(moduleList, 'seq')
+      return moduleList
+    },
+    doc () {
+      if (this.docPath === './doc.md') {
+        return doc
+      }
+      return docFiles(this.docPath).default
     }
   },
   mounted () {
@@ -176,9 +205,14 @@ export default {
     bus.removeEvent('popupDevTool.hide', this.$refs.popup.handleResult)
   },
   methods: {
-    switchType (firstType, secondType) {
-      this.firstType = firstType
-      this.secondType = secondType
+    selectModule (data) {
+      if (data === 'index') {
+        this.modulePath = '/src'
+        this.docPath = './doc.md'
+      } else {
+        this.modulePath = data.path
+        this.docPath = data.docPath
+      }
     },
     handleClose () {
       bus.actionEvent('popupDevTool.hide')

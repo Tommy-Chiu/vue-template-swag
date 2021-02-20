@@ -92,29 +92,32 @@
 <template lang="pug">
   div.panel-side-wrap
     a.go-doc(
-        :class="firstType === 'doc' && secondType === 'index' ? 'is-active' : 'is-normal'"
-        @click="$emit('switchType', 'doc', 'index')"
+        :class="path === '/src' ? 'is-active' : 'is-normal'"
+        @click="$emit('selectModule', 'index')"
       )
       span.text \{{'Dev-Tool'}}
     ul.first-tab-list
       li.first-tab-item(v-for="(firstTabItem, index) in moduleList" :key="index")
         a.go-path(
-            :class="firstTabItem.name === firstType && secondType === 'index' ? 'is-active' : 'is-normal'"
-            @click="$emit('switchType', firstTabItem.name, 'index')"
+            :class="firstTabItem.path === path ? 'is-active' : 'is-normal'"
+            @click="$emit('selectModule', firstTabItem)"
           )
           span.text \{{firstTabItem.name}}
-          button.btn(v-if="firstTabItem.hasScript" @click.stop="handleScript(firstTabItem.name, firstTabItem.path)")
+          button.btn(
+              v-if="firstTabItem.scriptType"
+              @click.stop="addModule(firstTabItem.name, firstTabItem.path)"
+            )
             icon(:name="'add-box-line'" :size="'16px'" color="#fff")
         ul.second-tab-list
-          li.second-tab-item(v-for="(secondTabItem, i) in firstTabItem.child" :key="i")
+          li.second-tab-item(v-for="(secondTabItem, i) in firstTabItem.children" :key="i")
             a.go-path(
-                :class="firstTabItem.name === firstType && secondTabItem.name === secondType ? 'is-active' : 'is-normal'"
-                @click="$emit('switchType', firstTabItem.name, secondTabItem.name)"
+                :class="secondTabItem.path === path ? 'is-active' : 'is-normal'"
+                @click="$emit('selectModule', secondTabItem)"
               )
               span.text \{{secondTabItem.name}}\{{`${secondTabItem.isHomePage ? ' 🏠' : ''}`}}
               button.btn(
-                  v-if="firstTabItem.name === 'pages' || firstTabItem.name === 'modules'"
-                  @click.stop="addSubModule(firstTabItem.name, secondTabItem.path)"
+                  v-if="secondTabItem.scriptType"
+                  @click.stop="addChildModule(firstTabItem.name, secondTabItem.path)"
                 )
                 icon(:name="'add-box-line'" :size="'16px'" color="#fff")
 </template>
@@ -135,11 +138,7 @@ let { runScript } = moduleRequestsPopupDevTool
 
 export default {
   props: {
-    firstType: {
-      type: String,
-      required: true
-    },
-    secondType: {
+    path: {
       type: String,
       required: true
     },
@@ -156,7 +155,7 @@ export default {
     }
   },
   methods: {
-    handleScript (type, path) {
+    addModule (type, path) {
       switch (type) {
         case 'pages':
         case 'modules':
@@ -214,7 +213,7 @@ export default {
           break
       }
     },
-    addSubModule (type, path) {
+    addChildModule (type, path) {
       bus.actionEvent('popupWindow', {
         title: 'title',
         lead: 'lead',

@@ -190,63 +190,21 @@
   div.panel-main-wrap
     div.ctrl
       strong Path：
-      span \{{curModule.path}}
+      span {{path}}
     div.content
-      component.mdStyle(:is="curModule.doc")
+      component.mdStyle(:is="doc")
 </template>
 
 <script>
-// import { moduleRequestsPopupDevTool } from '@/requestor'
-// import {
-//   // moduleUtilPopupDevTool,
-//   // mapComponents,
-//   // mapDirectives,
-//   // mapFilters,
-//   // mapMixins,
-//   // mapGetters,
-//   // mapActions
-// } from '@/utils'
-// let { } = moduleRequestsPopupDevTool
-// let { } = moduleUtilPopupDevTool
-import doc from '@/doc.md'
-
 export default {
   props: {
-    firstType: {
+    path: {
       type: String,
       required: true
     },
-    secondType: {
-      type: String,
+    doc: {
+      type: Object,
       required: true
-    },
-    moduleList: {
-      type: Array,
-      required: true
-    }
-  },
-  computed: {
-    curModule () {
-      let module
-      if (this.firstType === 'doc' && this.secondType === 'index') {
-        module = {
-          doc,
-          path: process.env.NODE_ENV === 'development' ? `/${doc.__file.split('/').slice(0, -1).join('/')}` : null
-        }
-      } else {
-        if (this.secondType === 'index') {
-          module = this.moduleList.find((item) => {
-            return item.name === this.firstType
-          })
-        } else {
-          module = this.moduleList.find((item) => {
-            return item.name === this.firstType
-          }).child.find((item) => {
-            return item.name === this.secondType
-          })
-        }
-      }
-      return module
     }
   }
 }
