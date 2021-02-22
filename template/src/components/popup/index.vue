@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import { bus } from '@/utils'
-import { onElementResize } from '@/directives'
+import { mapDirectives } from '@/directives'
+import { mapUtils } from '@/utils'
 
 export default {
   directives: {
-    onElementResize
+    ...mapDirectives([ 'onElementResize' ])
   },
   props: {
     eventName: {
@@ -51,7 +51,8 @@ export default {
       blurSwitch: false,
       positionX: null,
       positionY: null,
-      timeOutFlag: null
+      timeOutFlag: null,
+      ...mapUtils([ 'bus' ])
     }
   },
   provide () {
@@ -82,10 +83,10 @@ export default {
       })
     },
     bindAction (fun) {
-      bus.bindEvent(this.eventName, fun)
+      this.bus.bindEvent(this.eventName, fun)
     },
     removeAction (fun) {
-      bus.removeEvent(this.eventName, fun)
+      this.bus.removeEvent(this.eventName, fun)
     },
     handleResult (res) {
       return new Promise((resolve, reject) => {
@@ -94,7 +95,7 @@ export default {
         this.positionY = null
         clearTimeout(this.timeOutFlag)
         this.timeOutFlag = setTimeout(() => {
-          bus.resultEvent(this.eventName, res)
+          this.bus.resultEvent(this.eventName, res)
           clearTimeout(this.timeOutFlag)
           resolve()
         }, 500)
@@ -112,16 +113,16 @@ export default {
       if (this.popupSwitch) {
         clearTimeout(this.timeOutFlag)
         this.timeOutFlag = setTimeout(() => {
-          bus.$emit(`${this.eventName}.resize`)
+          this.bus.$emit(`${this.eventName}.resize`)
           clearTimeout(this.timeOutFlag)
         }, 1)
       }
     },
     bindResize (fun) {
-      bus.$on(`${this.eventName}.resize`, fun)
+      this.bus.$on(`${this.eventName}.resize`, fun)
     },
     removeResize (fun) {
-      bus.$off(`${this.eventName}.resize`, fun)
+      this.bus.$off(`${this.eventName}.resize`, fun)
     },
 
     handleBlur (switchVal) {
@@ -132,16 +133,16 @@ export default {
     },
     onBlur () {
       if (this.blurSwitch) {
-        bus.$emit(`${this.eventName}.blur`)
+        this.bus.$emit(`${this.eventName}.blur`)
       }
     },
     bindBlur (fun) {
       this.blurSwitch = true
-      bus.$on(`${this.eventName}.blur`, fun)
+      this.bus.$on(`${this.eventName}.blur`, fun)
     },
     removeBlur (fun) {
       this.blurSwitch = false
-      bus.$off(`${this.eventName}.blur`, fun)
+      this.bus.$off(`${this.eventName}.blur`, fun)
     }
   }
 }

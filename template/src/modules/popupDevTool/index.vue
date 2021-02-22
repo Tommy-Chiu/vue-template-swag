@@ -79,18 +79,8 @@
 </template>
 
 <script>
-// import { moduleRequestsPopupDevTool } from '@/requestor'
-import { bus, compareArr,
-  // moduleUtilPopupDevTool,
-  mapComponents
-  // mapDirectives,
-  // mapFilters,
-  // mapMixins,
-  // mapGetters,
-  // mapActions
-} from '@/utils'
-// let { } = moduleRequestsPopupDevTool
-// let { } = moduleUtilPopupDevTool
+import { mapComponents } from '@/components'
+import { mapUtils } from '@/utils'
 import doc from '@/doc.md'
 
 let docFiles = require.context('@', true, /\.md$/)
@@ -162,7 +152,8 @@ export default {
   data () {
     return {
       modulePath: '/src',
-      docPath: './doc.md'
+      docPath: './doc.md',
+      ...mapUtils([ 'bus', 'compareArr' ])
     }
   },
   computed: {
@@ -186,7 +177,7 @@ export default {
           mainTypeModule.children.push(getChildTypeModule(mainTypeModule.name, childTypePathArr))
         })
       })
-      moduleList = compareArr(moduleList, 'seq')
+      moduleList = this.compareArr(moduleList, 'seq')
       return moduleList
     },
     doc () {
@@ -197,12 +188,12 @@ export default {
     }
   },
   mounted () {
-    bus.bindEvent('popupDevTool.show', this.$refs.popup.handleAction)
-    bus.bindEvent('popupDevTool.hide', this.$refs.popup.handleResult)
+    this.bus.bindEvent('popupDevTool.show', this.$refs.popup.handleAction)
+    this.bus.bindEvent('popupDevTool.hide', this.$refs.popup.handleResult)
   },
   destroy () {
-    bus.removeEvent('popupDevTool.show', this.$refs.popup.handleAction)
-    bus.removeEvent('popupDevTool.hide', this.$refs.popup.handleResult)
+    this.bus.removeEvent('popupDevTool.show', this.$refs.popup.handleAction)
+    this.bus.removeEvent('popupDevTool.hide', this.$refs.popup.handleResult)
   },
   methods: {
     selectModule (data) {
@@ -215,10 +206,10 @@ export default {
       }
     },
     handleClose () {
-      bus.actionEvent('popupDevTool.hide')
+      this.bus.actionEvent('popupDevTool.hide')
     },
     handleDevTool () {
-      bus.actionEvent('popupDevTool.show')
+      this.bus.actionEvent('popupDevTool.show')
     }
   }
 }

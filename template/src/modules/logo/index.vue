@@ -13,19 +13,6 @@
 </template>
 
 <script>
-// import { moduleRequestsLogo } from '@/requestor'
-// import {
-//   // moduleUtilLogo,
-//   // mapComponents,
-//   // mapDirectives,
-//   // mapFilters,
-//   // mapMixins,
-//   // mapGetters,
-//   // mapActions
-// } from '@/utils'
-// let { } = moduleRequestsLogo
-// let { } = moduleUtilLogo
-
 export default {
   components: {},
   directives: {},

@@ -123,18 +123,9 @@
 </template>
 
 <script>
-import { moduleRequestsPopupDevTool } from '@/requestor'
-import { bus,
-  // moduleUtilPopupDevTool,
-  mapComponents
-  // mapDirectives,
-  // mapFilters,
-  // mapMixins,
-  // mapGetters,
-  // mapActions
-} from '@/utils'
-let { runScript } = moduleRequestsPopupDevTool
-// let { } = moduleUtilPopupDevTool
+import { mapComponents } from '@/components'
+import { mapUtils } from '@/utils'
+import { mapRequests } from '@/requestor'
 
 export default {
   props: {
@@ -151,10 +142,12 @@ export default {
     return {
       ...mapComponents('modules/popupDevTool', [
         {'scriptFormPanels': ['mainTypeTextPanel', 'mainTypeFilePanel', 'subTypePanel']}
-      ])
+      ]),
+      ...mapUtils([ 'bus' ])
     }
   },
   methods: {
+    ...mapRequests('modules/popupDevTool', [ 'runScript' ]),
     addModule (type, path) {
       switch (type) {
         case 'pages':
@@ -164,7 +157,7 @@ export default {
         case 'filters':
         case 'mixins':
         case 'utils':
-          bus.actionEvent('popupWindow', {
+          this.bus.actionEvent('popupWindow', {
             title: 'title',
             lead: 'lead',
             canClose: true,
@@ -183,12 +176,12 @@ export default {
             data: ''
           }, ({ status, data }) => {
             if (status === 'confirm') {
-              runScript({type, targetPath: path, name: data})
+              this.runScript({type, targetPath: path, name: data})
             }
           })
           break
         case 'icons':
-          bus.actionEvent('popupWindow', {
+          this.bus.actionEvent('popupWindow', {
             title: 'title',
             lead: 'lead',
             canClose: true,
@@ -207,14 +200,14 @@ export default {
             data: null
           }, ({ status, data }) => {
             if (status === 'confirm') {
-              runScript({type, targetPath: path, files: data})
+              this.runScript({type, targetPath: path, files: data})
             }
           })
           break
       }
     },
     addChildModule (type, path) {
-      bus.actionEvent('popupWindow', {
+      this.bus.actionEvent('popupWindow', {
         title: 'title',
         lead: 'lead',
         canClose: true,
@@ -236,7 +229,7 @@ export default {
         }
       }, ({ status, data }) => {
         if (status === 'confirm') {
-          runScript({ type, targetPath: path, name: data.name, childType: data.type })
+          this.runScript({ type, targetPath: path, name: data.name, childType: data.type })
         }
       })
     }

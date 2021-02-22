@@ -3,7 +3,6 @@ export default (files) => {
   files.keys().forEach(function (key, index, array) {
     if (key === './index.js') return
     let temp = moduleJson
-    let module = files(key).default
     let modulePathArr = key.substring(2).split('/')
     modulePathArr.forEach((k, i, arr) => {
       if (i < arr.length - 1) {
@@ -12,7 +11,9 @@ export default (files) => {
         }
         temp = temp[k]
       } else {
-        temp[k.split('.')[0]] = module
+        temp[k.split('.')[0]] = () => {
+          return files(key).default
+        }
       }
     })
   })

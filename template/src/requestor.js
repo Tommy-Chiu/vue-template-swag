@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import { mapper } from '@/utils'
 
 const instance = axios.create({
   baseURL: window.CONFIG.BASE_URL,
@@ -118,14 +119,24 @@ export const del = (url, options = {}, otherOptions) => {
   })
 }
 
-const pageRequestFiles = require.context('./pages', true, /requests\/index\.js$/)
-pageRequestFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  exports[`pageRequests${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = pageRequestFiles(key).default
+let requests = {}
+
+exports.mapRequests = (namespace, mapStructure) => {
+  return mapper({
+    source: requests,
+    namespace: mapStructure ? namespace : null,
+    mapStructure: mapStructure || namespace,
+    structureType: 'object',
+    runIt: false
+  })
+}
+
+const pageRequestsFiles = require.context('./pages', true, /requests\/index\.js$/)
+pageRequestsFiles.keys().forEach(key => {
+  requests[`pages/${key.split('/')[1]}`] = pageRequestsFiles(key).default
 })
 
-const moduleRequestFiles = require.context('./modules', true, /requests\/index\.js$/)
-moduleRequestFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  exports[`moduleRequests${arr[0].charAt(0).toUpperCase() + arr[0].slice(1)}`] = moduleRequestFiles(key).default
+const moduleRequestsFiles = require.context('./modules', true, /requests\/index\.js$/)
+moduleRequestsFiles.keys().forEach(key => {
+  requests[`modules/${key.split('/')[1]}`] = moduleRequestsFiles(key).default
 })

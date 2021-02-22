@@ -1,24 +1,37 @@
-const getMapper = require('../utils').getMapper
-
+import mapper from '@/utils/mapper'
 const files = require.context('./', true, /index\.js$/)
+const pageDirectiveFiles = require.context('../pages', true, /directives\/index\.js$/)
+const moduleDirectiveFiles = require.context('../modules', true, /directives\/index\.js$/)
+
+let directives = {}
+let exportsMap = {}
+
 files.keys().forEach(key => {
   if (key === './index.js') return
-  let directive = files(key).default
   let directiveName = key.split('/')[1]
-  directive.install = (Vue) => {
-    Vue.directive(directiveName, directive)
+  exportsMap[directiveName] = directives[directiveName] = () => {
+    let directive = files(key).default
+    directive.install = (Vue) => {
+      Vue.directive(directiveName, directive)
+    }
+    return directive
   }
-  exports[directiveName] = directive
+})
+exports.mapDirectives = (namespace, mapStructure) => {
+  return mapper({
+    source: directives,
+    namespace: mapStructure ? namespace : null,
+    mapStructure: mapStructure || namespace,
+    structureType: 'object'
+  })
+}
+Object.keys(exportsMap).forEach(key => {
+  exports[key] = exportsMap[key]()
 })
 
-const pageDirectiveFiles = require.context('../pages', true, /directives\/index\.js$/)
 pageDirectiveFiles.keys().forEach(key => {
-  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageDirectiveFiles(key).default
+  directives[`pages/${key.split('/')[1]}`] = pageDirectiveFiles(key).default
 })
-
-const moduleDirectiveFiles = require.context('../modules', true, /directives\/index\.js$/)
 moduleDirectiveFiles.keys().forEach(key => {
-  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleDirectiveFiles(key).default
+  directives[`modules/${key.split('/')[1]}`] = moduleDirectiveFiles(key).default
 })
-
-exports.mapper = getMapper(exports)

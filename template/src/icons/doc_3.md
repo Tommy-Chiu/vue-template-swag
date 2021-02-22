@@ -82,17 +82,15 @@
 </template>
 
 <script>
-import { clipboard } from '@/utils'
+import { mapUtils } from '@/utils'
 import icons from './'
 
 export default {
   data () {
     return {
+      ...mapUtils([ 'clipboard' ]),
       icons
     }
-  },
-  methods: {
-    clipboard
   }
 }
 </script>

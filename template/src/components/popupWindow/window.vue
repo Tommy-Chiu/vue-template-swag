@@ -107,8 +107,8 @@
 </template>
 
 <script>
-import { getTypeOfData } from '@/utils'
-import { jsonSchemaComp } from '@/components'
+import { mapComponents } from '@/components'
+import { mapUtils } from '@/utils'
 
 export default {
   name: 'window',
@@ -133,7 +133,7 @@ export default {
     }
   },
   components: {
-    jsonSchemaComp
+    ...mapComponents([ 'jsonSchemaComp' ])
   },
   inject: [
     'handleAction', 'handleResult',
@@ -149,7 +149,8 @@ export default {
       parmsCancelLabel: null,
       parmsConfirmLabel: null,
       jsonSchema: null,
-      data: null
+      data: null,
+      ...mapUtils([ 'getTypeOfData' ])
     }
   },
   created () {
@@ -174,12 +175,12 @@ export default {
     onInit (parms) {
       this.onReset()
       let { title, lead, canClose, canBlur, cancelLabel, confirmLabel, jsonSchema, data } = parms
-      this.parmsTitle = getTypeOfData(title) === 'string' ? title : this.title
-      this.parmsLead = getTypeOfData(lead) === 'string' ? lead : this.lead
-      this.parmsCanClose = getTypeOfData(canClose) === 'boolean' ? canClose : this.canClose
-      this.parmsCanBlur = getTypeOfData(canBlur) === 'boolean' ? canBlur : this.canBlur
-      this.parmsCancelLabel = getTypeOfData(cancelLabel) === 'string' ? cancelLabel : this.cancelLabel
-      this.parmsConfirmLabel = getTypeOfData(confirmLabel) === 'string' ? confirmLabel : this.confirmLabel
+      this.parmsTitle = this.getTypeOfData(title) === 'string' ? title : this.title
+      this.parmsLead = this.getTypeOfData(lead) === 'string' ? lead : this.lead
+      this.parmsCanClose = this.getTypeOfData(canClose) === 'boolean' ? canClose : this.canClose
+      this.parmsCanBlur = this.getTypeOfData(canBlur) === 'boolean' ? canBlur : this.canBlur
+      this.parmsCancelLabel = this.getTypeOfData(cancelLabel) === 'string' ? cancelLabel : this.cancelLabel
+      this.parmsConfirmLabel = this.getTypeOfData(confirmLabel) === 'string' ? confirmLabel : this.confirmLabel
       this.jsonSchema = jsonSchema || null
       this.data = data || null
     },

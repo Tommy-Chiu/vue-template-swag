@@ -1,63 +1,33 @@
-import { mapGetters, mapActions } from 'vuex'
-
+import mapper from '@/utils/mapper'
 const files = require.context('./', true, /index\.js$/)
+const pageUtilFiles = require.context('../pages', true, /utils\/index\.js$/)
+const moduleUtilFiles = require.context('../modules', true, /utils\/index\.js$/)
+
+let utils = {}
+let exportsMap = {}
+
 files.keys().forEach(key => {
   if (key === './index.js') return
-  let util = files(key).default
   let utilName = key.split('/')[1]
-  exports[utilName] = util
-})
-
-const pageUtilFiles = require.context('../pages', true, /utils\/index\.js$/)
-pageUtilFiles.keys().forEach(key => {
-  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageUtilFiles(key).default
-})
-
-const moduleUtilFiles = require.context('../modules', true, /utils\/index\.js$/)
-moduleUtilFiles.keys().forEach(key => {
-  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleUtilFiles(key).default
-})
-
-export const getMapper = function (source, structureType) {
-  return function () {
-    let namespace, map, res
-    if (arguments.length > 1) {
-      namespace = arguments[ 0 ]
-      map = arguments[ 1 ]
-      if (!source[ namespace ]) {
-        console.error(`[getMapper]can not found ${namespace}!`)
-        return
-      }
-      res = source[ namespace ]
-    } else {
-      namespace = ''
-      map = arguments[ 0 ]
-      res = source
-    }
-    let components = structureType && structureType === 'array' ? [] : {}
-    getComponents(res, map)
-    function getComponents (res, map) {
-      map.forEach((key) => {
-        if (typeof key === 'string') {
-          if (res.hasOwnProperty(key)) {
-            structureType && structureType === 'array'
-              ? components.push(res[ key ])
-              : components[ key ] = res[ key ]
-          }
-        } else if (typeof key === 'object') {
-          Object.keys(key).forEach((k) => {
-            getComponents(res[ k ], key[ k ])
-          })
-        }
-      })
-    }
-    return components
+  exportsMap[utilName] = utils[utilName] = () => {
+    return files(key).default
   }
+})
+exports.mapUtils = (namespace, mapStructure) => {
+  return mapper({
+    source: utils,
+    namespace: mapStructure ? namespace : null,
+    mapStructure: mapStructure || namespace,
+    structureType: 'object'
+  })
 }
+Object.keys(exportsMap).forEach(key => {
+  exports[key] = exportsMap[key]()
+})
 
-exports.mapComponents = require('@/components').mapper
-exports.mapDirectives = require('@/directives').mapper
-exports.mapFilters = require('@/filters').mapper
-exports.mapMixins = require('@/mixins').mapper
-exports.mapGetters = mapGetters
-exports.mapActions = mapActions
+pageUtilFiles.keys().forEach(key => {
+  utils[`pages/${key.split('/')[1]}`] = pageUtilFiles(key).default
+})
+moduleUtilFiles.keys().forEach(key => {
+  utils[`modules/${key.split('/')[1]}`] = moduleUtilFiles(key).default
+})

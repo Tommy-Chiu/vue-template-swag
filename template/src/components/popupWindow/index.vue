@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { popup } from '@/components'
+import { mapComponents } from '@/components'
 import window from './window'
 
 export default {
@@ -40,7 +40,7 @@ export default {
     }
   },
   components: {
-    popup,
+    ...mapComponents([ 'popup' ]),
     window
   }
 }

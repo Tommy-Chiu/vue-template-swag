@@ -13,30 +13,22 @@
   div
     p response：\{{response}}
     p
-      button(@click="testHttpGet") get
-      button(@click="testHttpPost") post
+      button(@click="handleTestHttpGet") get
+      button(@click="handleTestHttpPost") post
 </template>
 
 <script>
-import { moduleRequestsPopupDevTool } from '@/requestor'
-import { bus, compareArr,
-  // moduleUtilPopupDevTool,
-  // mapComponents,
-  // mapDirectives,
-  // mapFilters,
-  // mapMixins,
-  mapGetters,
-  mapActions
-} from '@/utils'
-let { testHttpGet, testHttpPost } = moduleRequestsPopupDevTool
-// let { } = moduleUtilPopupDevTool
+import { mapUtils } from '@/utils'
+import { mapRequests } from '@/requestor'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
     return {
       incrementPayload: 1,
       decrementPayload: 2,
-      response: null
+      response: null,
+      ...mapUtils([ 'bus', 'compareArr' ])
     }
   },
   computed: {
@@ -48,18 +40,19 @@ export default {
     this.vx_reset()
   },
   methods: {
+    ...mapRequests('modules/popupDevTool', [ 'testHttpGet', 'testHttpPost' ]),
     ...mapActions('modules/popupDevTool', {
       vx_incrementCount: 'increment_count',
       vx_decrementCount: 'decrement_count',
       vx_reset: 'reset'
     }),
-    async testHttpGet () {
-      this.response = await testHttpGet('testHttpGetData')
+    async handleTestHttpGet () {
+      this.response = await this.testHttpGet('testHttpGetData')
         .then((res) => { return res })
         .catch((err) => { return err })
     },
-    async testHttpPost () {
-      this.response = await testHttpPost('testHttpPostData')
+    async handleTestHttpPost () {
+      this.response = await this.testHttpPost('testHttpPostData')
         .then((res) => { return res })
         .catch((err) => { return err })
     }

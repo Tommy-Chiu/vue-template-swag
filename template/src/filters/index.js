@@ -1,24 +1,37 @@
-const getMapper = require('../utils').getMapper
-
+import mapper from '@/utils/mapper'
 const files = require.context('./', true, /index\.js$/)
+const pageFilterFiles = require.context('../pages', true, /filters\/index\.js$/)
+const moduleFilterFiles = require.context('../modules', true, /filters\/index\.js$/)
+
+let filters = {}
+let exportsMap = {}
+
 files.keys().forEach(key => {
   if (key === './index.js') return
-  let filter = files(key).default
   let filterName = key.split('/')[1]
-  filter.install = (Vue) => {
-    Vue.filter(filterName, filter)
+  exportsMap[filterName] = filters[filterName] = () => {
+    let filter = files(key).default
+    filter.install = (Vue) => {
+      Vue.filter(filterName, filter)
+    }
+    return filter
   }
-  exports[filterName] = filter
+})
+exports.mapFilters = (namespace, mapStructure) => {
+  return mapper({
+    source: filters,
+    namespace: mapStructure ? namespace : null,
+    mapStructure: mapStructure || namespace,
+    structureType: 'object'
+  })
+}
+Object.keys(exportsMap).forEach(key => {
+  exports[key] = exportsMap[key]()
 })
 
-const pageFilterFiles = require.context('../pages', true, /filters\/index\.js$/)
 pageFilterFiles.keys().forEach(key => {
-  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageFilterFiles(key).default
+  filters[`pages/${key.split('/')[1]}`] = pageFilterFiles(key).default
 })
-
-const moduleFilterFiles = require.context('../modules', true, /filters\/index\.js$/)
 moduleFilterFiles.keys().forEach(key => {
-  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleFilterFiles(key).default
+  filters[`modules/${key.split('/')[1]}`] = moduleFilterFiles(key).default
 })
-
-exports.mapper = getMapper(exports)

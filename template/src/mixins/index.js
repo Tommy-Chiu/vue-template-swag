@@ -1,23 +1,36 @@
-const getMapper = require('../utils').getMapper
-
+import mapper from '@/utils/mapper'
 const files = require.context('./', true, /index\.vue$/)
-files.keys().forEach(key => {
-  let mixin = files(key).default
-  let mixinName = key.split('/')[1]
-  mixin.install = (Vue) => {
-    Vue.mixin(mixin)
-  }
-  exports[mixinName] = mixin
-})
-
 const pageMixinFiles = require.context('../pages', true, /mixins\/index\.js$/)
-pageMixinFiles.keys().forEach(key => {
-  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageMixinFiles(key).default
-})
-
 const moduleMixinFiles = require.context('../modules', true, /mixins\/index\.js$/)
-moduleMixinFiles.keys().forEach(key => {
-  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleMixinFiles(key).default
+
+let mixins = {}
+let exportsMap = {}
+
+files.keys().forEach(key => {
+  let mixinName = key.split('/')[1]
+  exportsMap[mixinName] = mixins[mixinName] = () => {
+    let mixin = files(key).default
+    mixin.install = (Vue) => {
+      Vue.mixin(mixin)
+    }
+    return mixin
+  }
+})
+exports.mapMixins = (namespace, mapStructure) => {
+  return mapper({
+    source: mixins,
+    namespace: mapStructure ? namespace : null,
+    mapStructure: mapStructure || namespace,
+    structureType: 'array'
+  })
+}
+Object.keys(exportsMap).forEach(key => {
+  exports[key] = exportsMap[key]()
 })
 
-exports.mapper = getMapper(exports, 'array')
+pageMixinFiles.keys().forEach(key => {
+  mixins[`pages/${key.split('/')[1]}`] = pageMixinFiles(key).default
+})
+moduleMixinFiles.keys().forEach(key => {
+  mixins[`modules/${key.split('/')[1]}`] = moduleMixinFiles(key).default
+})

@@ -1,24 +1,37 @@
-const getMapper = require('../utils').getMapper
-
+import mapper from '@/utils/mapper'
 const files = require.context('./', true, /index\.vue$/)
-files.keys().forEach(key => {
-  let component = files(key).default
-  let componentName = key.split('/')[1]
-  component.name = componentName
-  component.install = (Vue) => {
-    Vue.component(componentName, component)
-  }
-  exports[componentName] = component
-})
-
 const pageComponentFiles = require.context('../pages', true, /components\/index\.js$/)
-pageComponentFiles.keys().forEach(key => {
-  exports[`pages/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = pageComponentFiles(key).default
-})
-
 const moduleComponentFiles = require.context('../modules', true, /components\/index\.js$/)
-moduleComponentFiles.keys().forEach(key => {
-  exports[`modules/${key.replace(/(\.\/|\.js)/g, '').split('/')[0]}`] = moduleComponentFiles(key).default
+
+let components = {}
+let exportsMap = {}
+
+files.keys().forEach(key => {
+  let componentName = key.split('/')[1]
+  exportsMap[componentName] = components[componentName] = () => {
+    let component = files(key).default
+    component.name = componentName
+    component.install = (Vue) => {
+      Vue.component(componentName, component)
+    }
+    return component
+  }
+})
+exports.mapComponents = (namespace, mapStructure) => {
+  return mapper({
+    source: components,
+    namespace: mapStructure ? namespace : null,
+    mapStructure: mapStructure || namespace,
+    structureType: 'object'
+  })
+}
+Object.keys(exportsMap).forEach(key => {
+  exports[key] = exportsMap[key]()
 })
 
-exports.mapper = getMapper(exports)
+pageComponentFiles.keys().forEach(key => {
+  components[`pages/${key.split('/')[1]}`] = pageComponentFiles(key).default
+})
+moduleComponentFiles.keys().forEach(key => {
+  components[`modules/${key.split('/')[1]}`] = moduleComponentFiles(key).default
+})

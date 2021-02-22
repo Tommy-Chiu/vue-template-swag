@@ -19,20 +19,13 @@
 
 <script>
 import { popupDevTool } from '@/modules'
-import {
-  mapComponents
-  // mapDirectives,
-  // mapFilters,
-  // mapMixins,
-  // mapGetters,
-  // mapActions
-} from '@/utils'
+import { mapComponents } from '@/components'
 
 export default {
   name: 'app',
   components: {
     popupDevTool,
-    ...mapComponents(['popupWindow'])
+    ...mapComponents([ 'popupWindow' ])
   }
 }
 </script>

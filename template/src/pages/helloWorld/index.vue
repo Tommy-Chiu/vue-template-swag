@@ -37,18 +37,13 @@
 
 <script>
 import { logo } from '@/modules'
-// import { pageRequestsHelloWorld } from '@/requestor'
-// import {
-//   // pageUtilHelloWorld,
-//   // mapComponents,
-//   // mapDirectives,
-//   // mapFilters,
-//   // mapMixins,
-//   // mapGetters,
-//   // mapActions
-// } from '@/utils'
-// let { } = pageRequestsHelloWorld
-// let { } = pageUtilHelloWorld
+// import { mapComponents } from '@/components'
+// import { mapDirectives } from '@/directives'
+// import { mapFilters } from '@/filters'
+// import { mapMixins } from '@/mixins'
+// import { mapUtils } from '@/utils'
+// import { mapRequests } from '@/requestor'
+// import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
