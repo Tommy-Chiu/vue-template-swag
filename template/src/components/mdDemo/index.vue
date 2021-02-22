@@ -8,6 +8,11 @@
       border: 1px solid #ebedf0;
       border-bottom: none;
       border-radius: 2px 2px 0 0;
+      background-color: #EFF2F7;
+      background-position: 0 0, 10px 10px;
+      background-size: 20px 20px;
+      background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),
+      linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
       & p {
         margin: 0;
       }
