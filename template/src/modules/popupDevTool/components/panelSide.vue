@@ -27,62 +27,50 @@
         color: #fff;
       }
     }
-    & .go-path {
-      display: block;
-      text-align: left;
-      & .text {
-        padding: 0;
-        line-height: 20px;
-        user-select: none;
+    & .menu {
+      box-sizing: border-box;
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 20px 20px 20px;
+    }
+    & .btn {
+      padding: 2px 0;
+      margin-left: 5px;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: inherit;
+    }
+  }
+</style>
+<style>
+  .dev-tool-panel-side-menu {
+    & .collapse-head {
+      & .collapse-head-control {
+        display: none !important;
       }
-      & .btn {
-        padding: 2px 0;
-        border: none;
-        outline: none;
-        background-color: transparent;
-        float: right;
-        display: none;
-        color: inherit;
-      }
-      &.is-normal {
-        color: #2C3E50;
-      }
-      &.is-active {
-        color: #fff;
-      }
-      &:hover {
-        color: #fff;
-        & .btn {
-          display: block;
+    }
+    & .collapse-head:hover, & .collapse-head.isActive {
+      color: #ffffff;
+      & .fold-switch {
+        & svg {
+          fill: #ffffff;
         }
       }
     }
-    & .first-tab-list {
-      flex: 1;
-      margin: 0;
-      padding: 0 20px 20px 20px;
-      overflow-y: auto;
-      list-style: none;
-      & .first-tab-item {
-        list-style: none;
-        & .go-path {
-          padding: 5px 0;
-          font-size: 20px;
-          font-weight: 700;
-          text-indent: 10px;
-        }
-        & .second-tab-list {
-          padding-left: 5px;
-          list-style: none;
-          & .second-tab-item {
-            height: auto;
-            list-style: none;
-            & .go-path {
-              padding: 5px 0 5px 15px;
-              font-size: 18px;
-              font-weight: 500;
-            }
-          }
+    & .collapse-head:hover {
+      & .collapse-head-control {
+        display: flex !important;
+      }
+    }
+    & .title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    &.level-1 {
+      & .collapse-head-description {
+        & .title {
+          font-weight: normal;
         }
       }
     }
@@ -93,33 +81,25 @@
   div.panel-side-wrap
     a.go-doc(
         :class="path === '/src' ? 'is-active' : 'is-normal'"
-        @click="$emit('selectModule', 'index')"
+        @click="() => {this.$emit('selectModule', 'index'); this.activeNodePath = []}"
       )
       span.text \{{'Dev-Tool'}}
-    ul.first-tab-list
-      li.first-tab-item(v-for="(firstTabItem, index) in moduleList" :key="index")
-        a.go-path(
-            :class="firstTabItem.path === path ? 'is-active' : 'is-normal'"
-            @click="$emit('selectModule', firstTabItem)"
+    infiniteTree.menu(
+        bindClass="dev-tool-panel-side-menu"
+        :data="moduleList"
+        :textKey="'name'"
+        :activeNodePath="activeNodePath"
+
+        @click="(nodeData, targetNodePath) => {this.$emit('selectModule', nodeData); this.activeNodePath = targetNodePath}"
+      )
+      template(slot="extendDescriptionBehind" slot-scope="{nodeData}")
+        span \{{`${nodeData.isHomePage ? ' 🏠' : ''}`}}
+      template(slot="extendControl" slot-scope="{nodeData}")
+        button.btn(
+            v-if="nodeData.scriptType"
+            @click.stop="nodeData.scriptType === 'main' ? addModule(nodeData.name, nodeData.path) : addChildModule(nodeData.mainType, nodeData.path)"
           )
-          span.text \{{firstTabItem.name}}
-          button.btn(
-              v-if="firstTabItem.scriptType"
-              @click.stop="addModule(firstTabItem.name, firstTabItem.path)"
-            )
-            icon(:name="'add-box-line'" :size="'16px'" color="#fff")
-        ul.second-tab-list
-          li.second-tab-item(v-for="(secondTabItem, i) in firstTabItem.children" :key="i")
-            a.go-path(
-                :class="secondTabItem.path === path ? 'is-active' : 'is-normal'"
-                @click="$emit('selectModule', secondTabItem)"
-              )
-              span.text \{{secondTabItem.name}}\{{`${secondTabItem.isHomePage ? ' 🏠' : ''}`}}
-              button.btn(
-                  v-if="secondTabItem.scriptType"
-                  @click.stop="addChildModule(firstTabItem.name, secondTabItem.path)"
-                )
-                icon(:name="'add-box-line'" :size="'16px'" color="#fff")
+          icon(:name="'add-box-line'" :size="'16px'" color="#fff")
 </template>
 
 <script>
@@ -128,6 +108,9 @@ import { mapUtils } from '@/utils'
 import { mapRequests } from '@/requestor'
 
 export default {
+  components: {
+    ...mapComponents([ 'infiniteTree' ])
+  },
   props: {
     path: {
       type: String,
@@ -143,7 +126,8 @@ export default {
       ...mapComponents('modules/popupDevTool', [
         {'scriptFormPanels': ['mainTypeTextPanel', 'mainTypeFilePanel', 'subTypePanel']}
       ]),
-      ...mapUtils([ 'bus' ])
+      ...mapUtils([ 'bus' ]),
+      activeNodePath: []
     }
   },
   methods: {
