@@ -1,7 +1,11 @@
-<style scoped></style>
+<style scoped>
+  .panel {
+    margin: 15px 25px 0;
+  }
+</style>
 
 <template lang="pug">
-  input(type="text" @change="$emit('sync', $event.target.value)")
+  input.panel(type="text" @change="$emit('sync', $event.target.value)")
 </template>
 
 <script>

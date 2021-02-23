@@ -1,14 +1,12 @@
 <style scoped>
   .window-wrap {
-    width: 768px;
-    border-radius: 5px;
-    background-color: #fff;
-    overflow: hidden;
+    min-width: 450px;
+    min-height: 300px;
     position: relative;
     & .close {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: -10px;
+      right: -10px;
       width: 30px;
       height: 30px;
       padding: 0;
@@ -23,9 +21,21 @@
       user-select: none;
       cursor: pointer;
       box-shadow: 0 5px 12px rgba(0, 0, 0, .3);
+      z-index: 1;
+    }
+    & div {
+      overflow: hidden;
+      &:first-of-type {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      &:last-of-type {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
     }
     & .header {
-      padding: 35px;
+      padding: 15px 25px 0;
       background-color: #fafafa;
       & .title {
         margin: 0;
@@ -34,25 +44,26 @@
         font-size: 24px;
       }
       & .lead {
-        padding: 8px 0 0 0;
+        padding: 8px 0 15px 0;
         margin: 0;
         text-align: center;
       }
     }
     & .content {
-      padding: 35px;
+      background-color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
     }
     & .footer {
-      padding: 0 35px 35px;
+      padding: 15px 25px;
+      background-color: #fff;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       & button {
         padding: 10px 15px;
-        margin: 8px;
+        margin: 0 8px;
         border: none;
         border-radius: 4px;
         overflow: hidden;
@@ -100,7 +111,7 @@
       p.lead(v-if="parmsLead") \{{ parmsLead }}
     div.content
       jsonSchemaComp(v-if="jsonSchema" v-model="data" :jsonSchema="jsonSchema")
-    div.footer(v-if="jsonSchema && ( parmsCancelLabel || parmsConfirmLabel )")
+    div.footer(v-if="parmsCancelLabel || parmsConfirmLabel")
       button.cancel(v-if="parmsCancelLabel" @click="onCancel") \{{parmsCancelLabel}}
       button.confirm(v-if="parmsConfirmLabel" @click="onConfirm") \{{parmsConfirmLabel}}
 </template>

@@ -1,11 +1,14 @@
 <style scoped>
+  .panel{
+    margin: 15px 25px 0;
+  }
   input[type="file"] {
     border: 1px solid #858585;
   }
 </style>
 
 <template lang="pug">
-  input(type="file" @change="$emit('sync', $event.target.files[0])")
+  input.panel(type="file" @change="$emit('sync', $event.target.files[0])")
 </template>
 
 <script>

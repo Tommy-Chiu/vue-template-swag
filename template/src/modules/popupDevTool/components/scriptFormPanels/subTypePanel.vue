@@ -1,5 +1,6 @@
 <style scoped>
   .panel {
+    margin: 15px 25px 0;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
