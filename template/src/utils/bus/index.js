@@ -8,7 +8,7 @@ instance.removeEvent = (eventName, fun) => {
 }
 instance.actionEvent = async (eventName, prams, callBack) => {
   await instance.$off(`${eventName}.result`)
-  await instance.$emit(`${eventName}.action`, prams)
+  await instance.$emit(`${eventName}.action`, prams || {})
   await instance.$on(`${eventName}.result`, async (data) => {
     if (callBack) await callBack(data)
     await instance.$off(`${eventName}.result`)

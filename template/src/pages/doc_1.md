@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { mapUtils } from '@/utils'
 import { mapRequests } from '@/requestor'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -27,8 +26,7 @@ export default {
     return {
       incrementPayload: 1,
       decrementPayload: 2,
-      response: null,
-      ...mapUtils([ 'bus', 'compareArr' ])
+      response: null
     }
   },
   computed: {
