@@ -1,7 +1,6 @@
 // import { get, post, put, del }
-//   from '@/requestor'
-// import * as url
-//   from './url'
+//  from '@/requestor'
+// import * as url from './url'
 
 // export default {
 //   requestName (parmsObj) {
