@@ -25,7 +25,6 @@
   }
   .dev-tool-wrap {
     position: relative;
-    box-shadow: 0 0 0 2000px rgba(0, 0, 0, .6);
     width: 90vw;
     height: 90vh;
     padding: 20px;
@@ -257,7 +256,7 @@ export default {
       this.bus.actionEvent('popupDevTool.hide')
     },
     handleDevTool () {
-      this.bus.actionEvent('popupDevTool.show')
+      this.bus.actionEvent('popupDevTool.show', {outsideColor: 'rgba(0, 0, 0, .6)'})
     }
   }
 }

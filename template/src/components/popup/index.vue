@@ -13,6 +13,11 @@
     transition: all 0.5s ease;
     & .content {
       position: absolute;
+      width: auto;
+      height: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       z-index: 99;
       transition: all 0.5s ease;
     }
@@ -26,7 +31,7 @@
       @click.self="onBlur()"
     )
     div.content(
-        :style="{left: `${positionX}px`,top: `${positionY}px`}"
+        :style="{left: `${positionX}px`, top: `${positionY}px`, boxShadow: `0 0 0 2000px ${outsideColor}`}"
       )
       slot
 </template>
@@ -51,6 +56,7 @@ export default {
       blurSwitch: false,
       positionX: null,
       positionY: null,
+      outsideColor: null,
       timeOutFlag: null,
       ...mapUtils([ 'bus' ])
     }
@@ -74,10 +80,11 @@ export default {
     }
   },
   methods: {
-    handleAction (positionX, positionY) {
+    handleAction ({positionX, positionY, outsideColor} = {}) {
       return new Promise((resolve, reject) => {
         this.positionX = positionX
         this.positionY = positionY
+        this.outsideColor = outsideColor
         this.popupSwitch = true
         resolve()
       })

@@ -4,7 +4,6 @@
     border-radius: 5px;
     background-color: #fff;
     overflow: hidden;
-    box-shadow: 0 0 0 2000px rgba(0, 0, 0, .6);
     position: relative;
     & .close {
       position: absolute;
@@ -186,7 +185,7 @@ export default {
     },
     onOpen (parms) {
       this.onInit(parms)
-      this.handleAction()
+      this.handleAction({outsideColor: 'rgba(0, 0, 0, .6)'})
     },
     onBlur () {
       if (this.parmsCanBlur) {
