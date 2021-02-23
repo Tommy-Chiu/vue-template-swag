@@ -124,7 +124,7 @@ export default {
   data () {
     return {
       ...mapComponents('modules/popupDevTool', [
-        {'scriptFormPanels': ['mainTypeTextPanel', 'mainTypeFilePanel', 'subTypePanel']}
+        {'scriptFormPanels': ['mainTypeTextPanel', 'mainTypeFilePanel', 'childTypePanel']}
       ]),
       ...mapUtils([ 'bus' ]),
       activeNodePath: []
@@ -199,7 +199,7 @@ export default {
         cancelLabel: 'cancel',
         confirmLabel: 'confirm',
         jsonSchema: {
-          widget: this.subTypePanel,
+          widget: this.childTypePanel,
           model: {
             name: 'sync',
             listener: (context, payload) => {
