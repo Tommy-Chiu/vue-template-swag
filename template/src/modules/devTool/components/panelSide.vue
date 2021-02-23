@@ -123,7 +123,7 @@ export default {
   },
   data () {
     return {
-      ...mapComponents('modules/popupDevTool', [
+      ...mapComponents('modules/devTool', [
         {'scriptFormPanels': ['mainTypeTextPanel', 'mainTypeFilePanel', 'childTypePanel']}
       ]),
       ...mapUtils([ 'bus' ]),
@@ -131,7 +131,7 @@ export default {
     }
   },
   methods: {
-    ...mapRequests('modules/popupDevTool', [ 'runScript' ]),
+    ...mapRequests('modules/devTool', [ 'runScript' ]),
     addModule (type, path) {
       switch (type) {
         case 'pages':

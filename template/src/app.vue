@@ -13,19 +13,18 @@
 <template lang="pug">
   div#app
     routerView
-    popupDevTool(v-if="$root.process_env.NODE_ENV === 'development'")
+    popupDevTool(v-if="$root.process_env.NODE_ENV === 'development' && $route.path !== '/dev_tool'")
     popupWindow
 </template>
 
 <script>
-import { popupDevTool } from '@/modules'
 import { mapComponents } from '@/components'
 
 export default {
   name: 'app',
   components: {
-    popupDevTool,
-    ...mapComponents([ 'popupWindow' ])
+    ...mapComponents([ 'popupWindow' ]),
+    ...mapComponents('modules/devTool', [ 'popupDevTool' ])
   }
 }
 </script>

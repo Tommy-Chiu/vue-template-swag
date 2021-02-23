@@ -1,34 +1,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .handle-dev-tool {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 90;
-    top: 0;
-    left: 50%;
-    right: 50%;
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-    background-color: #ffffff;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, .3);
-    margin: -15px;
-    padding: 0;
-    border: none;
-    outline: none;
-    transition: margin 0.3s ease;
-    &:hover {
-      margin: 0 -15px;
-    }
-  }
   .dev-tool-wrap {
     position: relative;
     width: 90vw;
     height: 90vh;
     padding: 20px;
-    border-radius: 10px;
     background-color: white;
 
     display: flex;
@@ -41,40 +17,18 @@
       flex: 1;
       width: 1px;
     }
-    & .close {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      width: 30px;
-      height: 30px;
-      border-radius: 100%;
-      background-color: #42b983;
-      color: #2c3e50;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      user-select: none;
-      cursor: pointer;
-      box-shadow: 0 5px 12px rgba(0, 0, 0, .3);
-    }
   }
 </style>
 
 <template lang="pug">
-  a.handle-dev-tool(@click="handleDevTool")
-    icon.lightning(:name="'lightning'" :size="'20px'")
-    popup(:eventName="'popupDevTool'" :ref="'popup'")
-      div.dev-tool-wrap
-        panelSide.panel-side(
-          :path="modulePath"
-          :moduleList="moduleList"
-          @selectModule="selectModule"
-        )
-        panelMain.panel-main(
-          :path="modulePath"
-          :doc="doc"
-        )
-        a.close(@click.stop="handleClose") x
+  div.dev-tool-wrap
+    panelSide.panel-side(
+    :path="modulePath"
+    :moduleList="moduleList"
+    @selectModule="selectModule")
+    panelMain.panel-main(
+    :path="modulePath"
+    :doc="doc")
 </template>
 
 <script>
@@ -188,10 +142,7 @@ function getChildTypeModule (mainType, pathArr) {
 
 export default {
   components: {
-    ...mapComponents([
-      'popup'
-    ]),
-    ...mapComponents('modules/popupDevTool', [
+    ...mapComponents('modules/devTool', [
       'panelMain',
       'panelSide'
     ])
@@ -200,7 +151,7 @@ export default {
     return {
       modulePath: '/src',
       docPath: './doc.md',
-      ...mapUtils([ 'bus', 'compareArr' ])
+      ...mapUtils(['compareArr'])
     }
   },
   computed: {
@@ -234,14 +185,6 @@ export default {
       return docFiles(this.docPath).default
     }
   },
-  mounted () {
-    this.bus.bindEvent('popupDevTool.show', this.$refs.popup.handleAction)
-    this.bus.bindEvent('popupDevTool.hide', this.$refs.popup.handleResult)
-  },
-  destroy () {
-    this.bus.removeEvent('popupDevTool.show', this.$refs.popup.handleAction)
-    this.bus.removeEvent('popupDevTool.hide', this.$refs.popup.handleResult)
-  },
   methods: {
     selectModule (data) {
       if (data === 'index') {
@@ -251,12 +194,6 @@ export default {
         this.modulePath = data.path
         this.docPath = data.docPath
       }
-    },
-    handleClose () {
-      this.bus.actionEvent('popupDevTool.hide')
-    },
-    handleDevTool () {
-      this.bus.actionEvent('popupDevTool.show', {outsideColor: 'rgba(0, 0, 0, .6)'})
     }
   }
 }

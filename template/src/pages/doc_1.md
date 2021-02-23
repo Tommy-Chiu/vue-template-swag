@@ -30,7 +30,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('modules/popupDevTool', {
+    ...mapGetters('modules/devTool', {
       vx_count: 'getCount'
     })
   },
@@ -38,8 +38,8 @@ export default {
     this.vx_reset()
   },
   methods: {
-    ...mapRequests('modules/popupDevTool', [ 'testHttpGet', 'testHttpPost' ]),
-    ...mapActions('modules/popupDevTool', {
+    ...mapRequests('modules/devTool', [ 'testHttpGet', 'testHttpPost' ]),
+    ...mapActions('modules/devTool', {
       vx_incrementCount: 'increment_count',
       vx_decrementCount: 'decrement_count',
       vx_reset: 'reset'
