@@ -26,7 +26,9 @@ Object.keys(exportsMap).forEach(key => {
 })
 
 pageUtilFiles.keys().forEach(key => {
-  utils[`pages/${key.split('/')[1]}`] = pageUtilFiles(key).default
+  let arr = key.replace(/(\.\/|\/children)/g, '').split('/')
+  arr = arr.splice(0, arr.length - 2)
+  utils[`pages/${arr.join('/')}`] = pageUtilFiles(key).default
 })
 moduleUtilFiles.keys().forEach(key => {
   utils[`modules/${key.split('/')[1]}`] = moduleUtilFiles(key).default

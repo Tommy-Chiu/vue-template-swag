@@ -30,7 +30,9 @@ Object.keys(exportsMap).forEach(key => {
 })
 
 pageDirectiveFiles.keys().forEach(key => {
-  directives[`pages/${key.split('/')[1]}`] = pageDirectiveFiles(key).default
+  let arr = key.replace(/(\.\/|\/children)/g, '').split('/')
+  arr = arr.splice(0, arr.length - 2)
+  directives[`pages/${arr.join('/')}`] = pageDirectiveFiles(key).default
 })
 moduleDirectiveFiles.keys().forEach(key => {
   directives[`modules/${key.split('/')[1]}`] = moduleDirectiveFiles(key).default

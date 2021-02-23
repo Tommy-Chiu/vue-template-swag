@@ -8,7 +8,9 @@ const pageStoreFiles = require.context('./pages', true, /store\/index\.js$/)
 pageStoreFiles.keys().forEach(key => {
   let module = pageStoreFiles(key).default
   module.namespaced = true
-  modules[`pages/${key.split('/')[1]}`] = module
+  let arr = key.replace(/(\.\/|\/children)/g, '').split('/')
+  arr = arr.splice(0, arr.length - 2)
+  modules[`pages/${arr.join('/')}`] = module
 })
 
 const moduleStoreFiles = require.context('./modules', true, /store\/index\.js$/)

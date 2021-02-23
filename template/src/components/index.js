@@ -30,7 +30,9 @@ Object.keys(exportsMap).forEach(key => {
 })
 
 pageComponentFiles.keys().forEach(key => {
-  components[`pages/${key.split('/')[1]}`] = pageComponentFiles(key).default
+  let arr = key.replace(/(\.\/|\/children)/g, '').split('/')
+  arr = arr.splice(0, arr.length - 2)
+  components[`pages/${arr.join('/')}`] = pageComponentFiles(key).default
 })
 moduleComponentFiles.keys().forEach(key => {
   components[`modules/${key.split('/')[1]}`] = moduleComponentFiles(key).default

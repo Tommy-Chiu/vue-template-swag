@@ -22,7 +22,8 @@
     input(type="text" @change="editValue.name = $event.target.value")
     div
       label(
-          v-for="(item, i) in [ 'components' , 'directives', 'filters', 'mixins', 'utils' ]" :key="i"
+          v-for="(item, i) in [ 'components' , 'directives', 'filters', 'mixins', 'utils', 'children' ]" :key="i"
+          v-if="(item === 'children' && value.mainType === 'pages') || item !== 'children'"
           :for="item"
         )
         input.radio(

@@ -29,7 +29,9 @@ Object.keys(exportsMap).forEach(key => {
 })
 
 pageMixinFiles.keys().forEach(key => {
-  mixins[`pages/${key.split('/')[1]}`] = pageMixinFiles(key).default
+  let arr = key.replace(/(\.\/|\/children)/g, '').split('/')
+  arr = arr.splice(0, arr.length - 2)
+  mixins[`pages/${arr.join('/')}`] = pageMixinFiles(key).default
 })
 moduleMixinFiles.keys().forEach(key => {
   mixins[`modules/${key.split('/')[1]}`] = moduleMixinFiles(key).default

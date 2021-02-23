@@ -93,7 +93,9 @@ function getMainTypeModule (pathArr, docFileKey) {
   let module = {
     name: type,
     seq: parseInt(pathArr[2].split('.')[0].split('_')[1]) || Infinity,
-    path: process.env.NODE_ENV === 'development' ? `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}` : null,
+    path: process.env.NODE_ENV === 'development'
+      ? `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}`
+      : null,
     docPath: docFileKey,
     scriptType: null,
     children: []
@@ -132,7 +134,53 @@ function getChildTypeModule (mainType, pathArr) {
         routerFilePathArr.slice(1, routerFilePathArr.length - 2).length === 1 &&
         routerFilePathArr[1] === module.name
       ) {
-        module.isHomePage = routeFiles(routeFileKey).default.isHomePage || false
+        module.isHomePage = routeFiles(routeFileKey).default.isHomePage
+      }
+    })
+    indexFiles.keys().forEach(function (indexFileKey) {
+      let childPathArr = indexFileKey.split('/')
+      if (
+        childPathArr[ 1 ] === mainType &&
+        childPathArr[ 2 ] === module.name &&
+        childPathArr[ childPathArr.length - 1 ] !== 'index' &&
+        childPathArr.findIndex(item => item === 'route') !== -1 &&
+        childPathArr.findIndex(item => item === 'children') !== -1
+      ) {
+        let target = module
+        childPathArr.slice(3, childPathArr.length - 2).forEach(item => {
+          if (item === 'children') {
+            if (!target.children) {
+              target.children = []
+            }
+            target = target.children
+          } else {
+            let res = target.findIndex(targetChildrenItem => targetChildrenItem.name === item)
+            if (res === -1) {
+              let child = {
+                name: item,
+                scriptType: 'child',
+                mainType
+              }
+              target.push(child)
+              target = child
+            } else {
+              target = target[res]
+            }
+          }
+        })
+        docFiles.keys().forEach(function (docFileKey) {
+          let docFilePathArr = docFileKey.split('/')
+          if (
+            docFilePathArr[ 1 ] === mainType &&
+            docFilePathArr[ 2 ] === pathArr[ 2 ] &&
+            childPathArr.slice(1, childPathArr.length - 2).join('/') === docFilePathArr.slice(1, docFilePathArr.length - 1).join('/')
+          ) {
+            target.path = process.env.NODE_ENV === 'development'
+              ? `/${docFiles(docFileKey).default.__file.split('/').slice(0, -1).join('/')}`
+              : null
+            target.docPath = docFileKey
+          }
+        })
       }
     })
   }

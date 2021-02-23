@@ -133,7 +133,9 @@ exports.mapRequests = (namespace, mapStructure) => {
 
 const pageRequestsFiles = require.context('./pages', true, /requests\/index\.js$/)
 pageRequestsFiles.keys().forEach(key => {
-  requests[`pages/${key.split('/')[1]}`] = pageRequestsFiles(key).default
+  let arr = key.replace(/(\.\/|\/children)/g, '').split('/')
+  arr = arr.splice(0, arr.length - 2)
+  requests[`pages/${arr.join('/')}`] = pageRequestsFiles(key).default
 })
 
 const moduleRequestsFiles = require.context('./modules', true, /requests\/index\.js$/)

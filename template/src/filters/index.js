@@ -30,7 +30,9 @@ Object.keys(exportsMap).forEach(key => {
 })
 
 pageFilterFiles.keys().forEach(key => {
-  filters[`pages/${key.split('/')[1]}`] = pageFilterFiles(key).default
+  let arr = key.replace(/(\.\/|\/children)/g, '').split('/')
+  arr = arr.splice(0, arr.length - 2)
+  filters[`pages/${arr.join('/')}`] = pageFilterFiles(key).default
 })
 moduleFilterFiles.keys().forEach(key => {
   filters[`modules/${key.split('/')[1]}`] = moduleFilterFiles(key).default

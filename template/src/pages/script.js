@@ -23,6 +23,8 @@ module.exports = (req, res, next) => {
         case 'utils':
           fs.writeFileSync(`./${childType}/index.js`, getFileTemplateByType('exportDFUJs'))
           break
+        case 'children':
+          break
       }
     }
     dirPath = path.resolve(dirPath, childType)
@@ -43,6 +45,7 @@ module.exports = (req, res, next) => {
     case 'utils':
       fs.writeFileSync(`./${name}.js`, getFileTemplateByType('utilJs'))
       break
+    case 'children':
     case undefined:
       dirPath = path.resolve(dirPath, name)
       fs.mkdirSync(dirPath) // mkdir

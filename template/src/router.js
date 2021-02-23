@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-
+/******************************************************************************
+ * TODO:
+ * [vue-router] Failed to resolve async component default:
+ * TypeError: Cannot read property 'beforeRouteEnter' of undefined
+ ******************************************************************************/
 let routes = [
   {
     path: '/',
@@ -10,24 +14,50 @@ let routes = [
 ]
 
 let concatRoutes = []
-const files = require.context('./pages', true, /route\/index\.js$/)
-files.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  let module = files(key).default
-  module.name = arr[0]
-  module.component = (resolve) => {
-    require([`./pages/${arr[0]}`], (component) => {
-      component.default.name = `${arr[0]}Page`
-      resolve(component)
+const routefiles = require.context('./pages', true, /route\/index\.js$/)
+const indexfiles = require.context('./pages', true, /index\.vue$/)
+routefiles.keys().sort((pre, next) => {
+  return pre.split('/').length - next.split('/').length
+}).forEach(key => {
+  let arr = key.split('/')
+  arr = arr.splice(1, arr.length - 3)
+  let module = routefiles(key).default
+  module._idx = arr[ arr.length - 1 ]
+  indexfiles.keys().forEach(key => {
+    if (key === `./${arr.join('/')}/index.vue`) {
+      module.component = (resolve) => {
+        let component = indexfiles(key)
+        component.default.name = `${module._idx}Page`
+        resolve(component)
+      }
+    }
+  })
+  if (arr.length === 1) {
+    if (module.isHomePage) {
+      routes[ 0 ].redirect = module.path
+    }
+    if (module.isNotFoundPage) {
+      concatRoutes.push(module)
+    } else {
+      concatRoutes.unshift(module)
+    }
+  } else if (arr.length > 1) {
+    let target = concatRoutes
+    arr.splice(-1, 1)
+    arr.forEach(item => {
+      if (item === 'children') {
+        if (!target.children) {
+          target.children = []
+        }
+        target = target.children
+      } else {
+        let res = target.findIndex(targetChildrenItem => targetChildrenItem._idx === item)
+        if (res !== -1) {
+          target = target[ res ]
+        }
+      }
     })
-  }
-  if (module.isHomePage) {
-    routes[0].redirect = module.path
-  }
-  if (module.isNotFoundPage) {
-    concatRoutes.push(module)
-  } else {
-    concatRoutes.unshift(module)
+    target.push(module)
   }
 })
 

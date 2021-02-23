@@ -208,6 +208,7 @@ export default {
           }
         },
         data: {
+          mainType: type,
           name: '',
           type: 'components'
         }
