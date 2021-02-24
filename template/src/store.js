@@ -2,24 +2,20 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
-const modules = {}
+let modules = {}
 
-const files = require.context('./pages', true, /store\/index\.js$/)
-files.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
-  let module = files(key).default
+const pageStoreFiles = require.context('./pages', true, /store\/index\.js$/)
+pageStoreFiles.keys().forEach(key => {
+  let module = pageStoreFiles(key).default
   module.namespaced = true
-  let moduleName = arr[0]
-  modules[`pages/${moduleName}`] = module
+  modules[`pages/${key.split('/')[1]}`] = module
 })
 
 const moduleStoreFiles = require.context('./modules', true, /store\/index\.js$/)
 moduleStoreFiles.keys().forEach(key => {
-  let arr = key.replace(/(\.\/|\.js)/g, '').split('/')
   let module = moduleStoreFiles(key).default
   module.namespaced = true
-  let moduleName = arr[0]
-  modules[`modules/${moduleName}`] = module
+  modules[`modules/${key.split('/')[1]}`] = module
 })
 
 export default new Vuex.Store({
