@@ -7,7 +7,7 @@
 │   ├── check-versions.js
 │   ├── logo.png
 │   ├── rules
-│   │   └── vue-md-loader      // markdown 解析loader
+│   │   └── vue-md-loader      // markdown 解析 loader
 │   ├── utils.js
 │   ├── vue-loader.conf.js
 │   ├── webpack.base.conf.js
@@ -28,17 +28,17 @@
 │       └── index.prod.js       // 生产环境变量
 │
 ├── devUtils                     // 开发环境工具函数
-│   ├── getFileTemplateByType   // 获取模板，用于开发者工具 popupDevTool 中创建文件
-│   ├── getIPAdress             // 获取IP地址，用于devServer host
+│   ├── getFileTemplateByType   // 获取模板，用于开发者工具 devTool 中创建文件
+│   ├── getIPAdress             // 获取 IP 地址，用于 devServer host
 │   └── mock                    // 模拟接口
 │
 ├── src
 │   ├── assets
 │   ├── components              // 公共自定义组件（业务无关）
 │   │   ├── ...                // 可通过左边栏创建（左边栏 -> components -> 添加按钮）
-│   │   ├── index.js           // 通过 require.context 批量 import，再通过 遍历 批量 exports 模块，其他同级路径下同名文件相同
-│   │   ├── doc.md             // 当前文件夹说明文档（请勿删改, popupDevTool 强依赖，其他同级路径下同名文件相同）
-│   │   └── script.js          // 脚本（请勿删改，popupDevTool 强依赖，其他同级路径下同名文件相同）
+│   │   ├── index.js           // 通过 require.context 批量 import，再通过 遍历 批量 exports 模块，
+│   │   ├── doc.md             // 当前文件夹说明文档（请勿删改, devTool 强依赖，其他同级路径下同名文件相同）
+│   │   └── script.js          // 脚本（请勿删改，devTool 强依赖，其他同级路径下同名文件相同）
 │   │
 │   ├── directives              // 公共自定义指令（业务无关）
 │   │   ├── ...                // 可通过左边栏创建
@@ -85,13 +85,14 @@
 │   │   │   ├── store         // 汇总至 @/store.js
 │   │   │
 │   │   │    // 非创建页面默认，可通过左边栏 -> pages -> xxx（如：helloWorld）-> 添加按钮创建
-│   │   │   ├── components    // 汇总至 @/components/index.js,可通过mapComponents获取
-│   │   │   ├── directives    // 汇总至 @/directives/index.js,可通过mapDirectives获取
-│   │   │   ├── filters       // 汇总至 @/filters/index.js,可通过mapFilters获取
-│   │   │   ├── mixins        // 汇总至 @/mixins/index.js,可通过mapMixins获取
-│   │   │   └── utils         // 汇总至 @/utils/index.js,可通过mapUtils获取
+│   │   │   ├── children      // 子页面，可通过左边栏创建（嵌套路由，子页面文件结构与pages相同，不做阐述）
+│   │   │   ├── components    // 汇总至 @/components/index.js,可通过 @/components/mapComponents 获取
+│   │   │   ├── directives    // 汇总至 @/directives/index.js,可通过 @/directives/mapDirectives 获取
+│   │   │   ├── filters       // 汇总至 @/filters/index.js,可通过 @/filters/mapFilters 获取
+│   │   │   ├── mixins        // 汇总至 @/mixins/index.js,可通过 @/mixins/mapMixins 获取
+│   │   │   └── utils         // 汇总至 @/utils/index.js,可通过 @/utils/mapUtils 获取
 │   │   │
-│   │   ├── notFound           // 404页面
+│   │   ├── notFound           // 404 页面
 │   │   ├── ...                // 可通过左边栏创建
 │   │   ├── doc_1.md
 │   │   └── script.js
@@ -105,14 +106,14 @@
 │   │   │   ├── requests      // 汇总至 @/requestor.js
 │   │   │   ├── store         // 汇总至 @/store.js
 │   │   │
-│   │   │    // 非创建页面默认，可通过左边栏 -> pages -> xxx（如：helloWorld）-> 添加按钮创建
-│   │   │   ├── components    // 汇总至 @/components/index.js,可通过mapComponents获取
-│   │   │   ├── directives    // 汇总至 @/directives/index.js,可通过mapDirectives获取
-│   │   │   ├── filters       // 汇总至 @/filters/index.js,可通过mapFilters获取
-│   │   │   ├── mixins        // 汇总至 @/mixins/index.js,可通过mapMixins获取
-│   │   │   └── utils         // 汇总至 @/utils/index.js,可通过mapUtils获取
+│   │   │    // 非创建页面默认，可通过左边栏 -> pages -> xxx （ 如：helloWorld ） -> 添加按钮创建
+│   │   │   ├── components    // 汇总至 @/components/index.js,可通过 @/components/mapComponents 获取
+│   │   │   ├── directives    // 汇总至 @/directives/index.js,可通过 @/directives/mapDirectives 获取
+│   │   │   ├── filters       // 汇总至 @/filters/index.js,可通过 @/filters/mapFilters 获取
+│   │   │   ├── mixins        // 汇总至 @/mixins/index.js,可通过 @/mixins/mapMixins 获取
+│   │   │   └── utils         // 汇总至 @/utils/index.js,可通过 @/utils/mapUtils 获取
 │   │   │
-│   │   ├── popupDevTool
+│   │   ├── devTool
 │   │   ├── ...               // 可通过左边栏创建
 │   │   ├── doc_2.md
 │   │   ├── index.js
@@ -132,22 +133,20 @@
 ```
 
 ## Template features
-###  PopupDevTool 全局开发者工具
+###  DevTool 全局开发者工具
 即当前面面板，提供以下功能：
 * markdown 文档
 * demo 展示
 * svg 图标
 * 执行脚本：创建文件（components、directives、filters、mixins、utils）、添加文件（icons）至指定目录
 ###  Require.context 批量引入
-使用 require.context 批量引入并封装
-例如：
-批量引入 'src/components'、'src/pages/xxx/components'、'src/modules/xxx/components'路径下自定义组件并exports
+使用 require.context 批量引入 'src/components'、'src/pages/xxx/components'、'src/modules/xxx/components' 路径下自定义组件 并封装 或 exports
 ###  mapper 映射助手
 使用 mapper 批量引入
 例如：
 mapComponents(['xxx'])、
-mapComponents('page/helloWorld',['xxx1', 'xxx2'])、
-mapComponents('module/popupDevTool',['xxx1', 'xxx2'])
+mapComponents('pages/helloWorld',['xxx1', 'xxx2'])、
+mapComponents('modules/popupDevTool',['xxx1', 'xxx2'])
 
 
 ## Commit message - 代码提交注释规范
