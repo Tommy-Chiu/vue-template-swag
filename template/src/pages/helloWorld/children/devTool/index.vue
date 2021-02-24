@@ -1,11 +1,5 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .dev-tool-wrap {
-    box-sizing: border-box;
-    width: 100% !important;
-    height: 100% !important;
-  }
-</style>
+<style scoped></style>
 
 <template lang="pug">
   devTool.dev-tool-wrap
