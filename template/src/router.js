@@ -75,6 +75,27 @@ const instance = new Router({
   routes
 })
 
+function func (type, prototypeFunc, instance) {
+  return function () {
+    let result = prototypeFunc.call(instance, ...arguments)
+    switch (type) {
+      case 'push':
+      case 'replace':
+        if (typeof result !== 'undefined') {
+          // catch: 解决vue-router在3.0版本以上编程式导航重复触发了同一个路由的报错问题
+          return result.catch(err => err)
+        } else {
+          return result
+        }
+      case 'go':
+        break
+    }
+  }
+}
+Router.prototype.push = func('push', Router.prototype.push, instance)
+Router.prototype.replace = func('replace', Router.prototype.replace, instance)
+Router.prototype.go = func('go', Router.prototype.go, instance)
+
 instance.beforeEach((to, from, next) => {
   next()
 })
