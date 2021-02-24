@@ -8,20 +8,31 @@
 </style>
 
 <template lang="pug">
-  div.logo-wrap
-    icon(:name="'logo'" :size="'150px'")
+  a.logo-wrap(
+    :class="itCanGoHome ? 'cr-pointer' : 'cr-auto'"
+    :title="itCanGoHome ? '点击将跳转至首页' : ''"
+    @click="itCanGoHome && goHome()")
+    icon(:name="'logo'" :size="size")
 </template>
 
 <script>
 export default {
-  components: {},
-  directives: {},
-  filters: {},
-  mixins: [],
-  data () {
-    return {}
+  props: {
+    itCanGoHome: {
+      type: Boolean,
+      default: false
+    },
+    size: {
+      type: String,
+      default: '35px'
+    }
   },
-  computed: {},
-  methods: {}
+  methods: {
+    goHome () {
+      this.$router.push({
+        path: this.$router.options.routes.find(item => item.path === '/').redirect
+      })
+    }
+  }
 }
 </script>

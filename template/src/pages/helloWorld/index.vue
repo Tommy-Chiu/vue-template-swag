@@ -23,7 +23,7 @@
 
 <template lang="pug">
   div.hello-world-wrap
-    logo
+    logo(size="150px")
     h1 Welcome to Your Vue.js App
     h2 Essential Links
     ul
