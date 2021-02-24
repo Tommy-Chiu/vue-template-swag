@@ -24,7 +24,7 @@
       border-radius: 6px;
       box-shadow: 0 2px 12px rgba(0, 0, 0, .2);
       position: relative;
-      overflow-y: auto;
+      overflow: auto;
     }
   }
 </style>
@@ -39,7 +39,6 @@
     line-height: 1.6em;
     letter-spacing: 0;
     margin: 0;
-    overflow-x: hidden;
     /* paragraph */
     & p {
       margin: 0.8em 0;

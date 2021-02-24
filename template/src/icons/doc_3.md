@@ -6,21 +6,25 @@
     padding: 10px 0;
 
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-flow: row;
+    flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     & .icon-item {
       background-color: white;
       border: 1px dashed #9f9f9f;
       border-radius: 5px;
       margin: 5px;
-      position: relative;
-      transition: all 300ms;
+
       display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
       justify-content: center;
       align-items: center;
+
+      position: relative;
       & .view {
+        box-sizing: border-box;
         width: 100px;
         height: 70px;
         padding: 5px;
@@ -29,43 +33,53 @@
         background-size: 20px 20px;
         background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%), linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
         background-clip: content-box;
+        z-index: 1;
+
         display: flex;
         justify-content: center;
         align-items: center;
       }
       & .ctrl {
         position: absolute;
-        z-index: 1;
-        width: 100px;
-        height: 70px;
-        padding: 5px;
-        background-color: rgba(255, 255, 255, 0.4);
-        display: none;
-        opacity: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        z-index: 2;
+
+        display: flex;
         justify-content: center;
-        align-items: flex-end;
+        align-items: flex-start;
         & .copy {
+          box-sizing: border-box;
+          position: absolute;
           width: 80px;
           height: 20px;
-          margin: 0 10px;
+          padding: 2px 10px;
           background-color: #42b983;
           color: #2c3e50;
           border-radius: 5px;
           user-select: none;
-          cursor: pointer;
+          display: none;
+          opacity: 0;
+          z-index: 2;
 
-          display: flex;
           justify-content: center;
           align-items: center;
         }
       }
       &:hover {
+        z-index: 2;
         transform: scale(1.2);
         box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
-        z-index: 1;
+        transition: all 300ms;
         & .ctrl {
-          display: flex;
-          opacity: 1;
+          & .copy {
+            display: flex;
+            opacity: 1;
+            margin-top: -10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+            transition: all 300ms;
+          }
         }
       }
     }
