@@ -10,6 +10,7 @@
     right: 50%;
     width: 30px;
     height: 30px;
+    text-decoration: none;
     border-radius: 100%;
     background-color: #ffffff;
     box-shadow: 0 5px 12px rgba(0, 0, 0, .3);
@@ -28,8 +29,7 @@
   a.popup-dev-tool(
       :href="$router.resolve({ name: 'devTool' }).href"
       @click.prevent="handlePopupDevTool"
-    )
-    icon.lightning(:name="'lightning'" :size="'20px'")
+    ) ⚡
 </template>
 
 <script>

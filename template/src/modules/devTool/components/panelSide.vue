@@ -53,6 +53,7 @@
     & .collapse-head:hover, & .collapse-head.isActive {
       color: #ffffff;
       & .fold-switch {
+        color: #ffffff !important;
         & svg {
           fill: #ffffff;
         }
@@ -98,8 +99,7 @@
         button.btn(
             v-if="nodeData.scriptType"
             @click.stop="nodeData.scriptType === 'main' ? addModule(nodeData.name, nodeData.path) : addChildModule(nodeData.mainType, nodeData.path)"
-          )
-          icon(:name="'add-box-line'" :size="'16px'" color="#fff")
+          ) +
 </template>
 
 <script>

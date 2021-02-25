@@ -21,7 +21,7 @@
         justify-content: center;
         align-items: center;
 
-        transition: all 200ms linear;
+        transition: transform 200ms linear;
       }
       & .collapse-head-description {
         height: 100%;
@@ -55,10 +55,9 @@
       div.collapse-head-wrap
         button.fold-switch(
             v-if="foldSwitchSite && $slots.default"
-            :style="{ left: foldSwitchSite === 'left' ? 0 : 'none',right: foldSwitchSite === 'right' ? 0 : 'none',marginLeft: foldSwitchSite === 'left' ? `${indent/2}em` : 'none',transform: foldSwitch ?'rotate(0deg)' :autoFoldSwitchState ?'rotate(45deg)' :'rotate(180deg)' }"
+            :style="{ fontSize: size, color, left: foldSwitchSite === 'left' ? 0 : 'none',right: foldSwitchSite === 'right' ? 0 : 'none',marginLeft: foldSwitchSite === 'left' ? `${indent/2}em` : 'none',transform: foldSwitch ?'rotate(0deg)' :autoFoldSwitchState ?'rotate(45deg)' :'rotate(180deg)' }"
             @click.stop="foldSwitch = !foldSwitch"
-          )
-          icon(name="arrow-down-line" :size="size" :color="color")
+          ) ▼
         div.collapse-head-description(:style="{ paddingLeft: `${(foldSwitchSite === 'left' ? 1.2 : 0) + indent / 2}em` }")
           slot(name="extendDescriptionBefore")
           span.title \{{title}}
