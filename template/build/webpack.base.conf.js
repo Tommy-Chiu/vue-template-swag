@@ -65,7 +65,7 @@ module.exports = {
             if (content.indexOf('::: demo :::') !== -1) {
               let contentArr = content.split('::: demo :::')
               for (let i = 0; i <= contentArr.length; i++) {
-                if (i % 2 !== 0 && contentArr[i] && contentArr[i].indexOf('<template lang="pug">') !== -1) {
+                if (i % 2 !== 0 && contentArr[i] && contentArr[i].indexOf('<template') !== -1) {
                   let dataArr = contentArr[i].split('```')
                   const $ = require('cheerio').load(dataArr[1], {
                     decodeEntities: false,
@@ -79,7 +79,11 @@ module.exports = {
                   }
                   $('style').remove()
                   $('script').remove()
-                  codeData.html = require('pug').render($.html().replace('<template lang="pug">', '<template>'))
+                  if (i % 2 !== 0 && contentArr[i] && contentArr[i].indexOf('lang="pug"') !== -1) {
+                    codeData.html = require('pug').render($.html().replace('<template lang="pug">', '<template>'))
+                  } else {
+                    codeData.html = $.html()
+                  }
                   let view = '::: demo view' + `\n${codeData.style}\n${codeData.html}\n${codeData.script}\n` + ':::'
                   let description = '::: demo description' + dataArr[0] + ':::'
                   let code = '::: demo code\n``` html' + dataArr[1] + '```\n:::'
