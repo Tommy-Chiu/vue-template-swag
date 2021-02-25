@@ -1,6 +1,7 @@
 'use strict'
 /* eslint-disable */
 const TEST_CONFIG = {
+  TITLE: 'vue-template-swag',
   BASE_URL: ''
 }
 try {

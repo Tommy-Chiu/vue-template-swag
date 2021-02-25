@@ -96,7 +96,12 @@ Router.prototype.push = func('push', Router.prototype.push, instance)
 Router.prototype.replace = func('replace', Router.prototype.replace, instance)
 Router.prototype.go = func('go', Router.prototype.go, instance)
 
+const defaultTitle = document.title
 instance.beforeEach((to, from, next) => {
+  /* 修改页面title */
+  to.matched.forEach(record => {
+    document.title = (record.meta && record.meta.title) || window.CONFIG.TITLE || defaultTitle
+  })
   next()
 })
 
